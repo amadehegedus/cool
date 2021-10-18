@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-10-18T14:17:27.194Z" agent="5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36" etag="vH_b9pGuIua3oX8cRQaK" version="15.5.5" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-18T14:20:36.123Z" agent="5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36" etag="3gfNE6VEXST5HcuU4C1g" version="15.5.5" type="github">
   <diagram name="Page-1" id="5f0bae14-7c28-e335-631c-24af17079c00">
     <mxGraphModel dx="2773" dy="934" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
       <root>
@@ -213,7 +213,7 @@
             <mxPoint x="-27" y="7" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="aNObFJ_koJKjJoRsx-cJ-88" value="&lt;b&gt;Felhasználói&lt;br&gt;adatbázis&lt;/b&gt;" style="html=1;dropTarget=0;" vertex="1" parent="1">
+        <mxCell id="aNObFJ_koJKjJoRsx-cJ-88" value="&lt;b&gt;Napló&lt;br&gt;adatbázis&lt;/b&gt;" style="html=1;dropTarget=0;" vertex="1" parent="1">
           <mxGeometry x="800" y="35" width="160" height="55" as="geometry" />
         </mxCell>
         <mxCell id="aNObFJ_koJKjJoRsx-cJ-89" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="aNObFJ_koJKjJoRsx-cJ-88">
