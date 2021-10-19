@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-10-18T15:24:06.003Z" agent="5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36" etag="b8Tpk0nC0HCYkIkZGHY5" version="15.5.5" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-19T11:24:12.340Z" agent="5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36" etag="99mlQN-mb0tfEnFLYG3m" version="15.5.5" type="github">
   <diagram name="Page-1" id="5f0bae14-7c28-e335-631c-24af17079c00">
-    <mxGraphModel dx="2285" dy="662" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
+    <mxGraphModel dx="1913" dy="454" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -288,11 +288,12 @@
         <mxCell id="aNObFJ_koJKjJoRsx-cJ-123" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=14;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1" source="aNObFJ_koJKjJoRsx-cJ-115" target="aNObFJ_koJKjJoRsx-cJ-117">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="aNObFJ_koJKjJoRsx-cJ-148" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=14;endArrow=none;endFill=0;exitX=0.92;exitY=0.006;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="aNObFJ_koJKjJoRsx-cJ-115">
+        <mxCell id="aNObFJ_koJKjJoRsx-cJ-148" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=14;endArrow=none;endFill=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="1" source="aNObFJ_koJKjJoRsx-cJ-115">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="690" y="230" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="537" y="520" />
+              <mxPoint x="570" y="614" />
+              <mxPoint x="570" y="520" />
               <mxPoint x="800" y="520" />
               <mxPoint x="800" y="230" />
               <mxPoint x="690" y="230" />
@@ -362,38 +363,41 @@
         <mxCell id="aNObFJ_koJKjJoRsx-cJ-151" value="Azonosító&lt;br&gt;lekérése" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
           <mxGeometry x="506" y="152.5" width="80" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="aNObFJ_koJKjJoRsx-cJ-155" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;sketch=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;fontSize=14;exitX=0.219;exitY=1.012;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" target="aNObFJ_koJKjJoRsx-cJ-157" parent="1" source="aNObFJ_koJKjJoRsx-cJ-107">
+        <mxCell id="aNObFJ_koJKjJoRsx-cJ-155" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;sketch=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;fontSize=14;exitX=0.219;exitY=1.012;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="335" y="370" as="sourcePoint" />
+            <mxPoint x="405.03999999999996" y="395.6600000000001" as="sourcePoint" />
+            <mxPoint x="405" y="495" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="aNObFJ_koJKjJoRsx-cJ-156" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=halfCircle;endFill=0;endSize=6;strokeWidth=1;sketch=0;fontSize=14;exitX=0.213;exitY=-0.018;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="aNObFJ_koJKjJoRsx-cJ-115">
+        <mxCell id="aNObFJ_koJKjJoRsx-cJ-156" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=halfCircle;endFill=0;endSize=6;strokeWidth=1;sketch=0;fontSize=14;exitX=0.213;exitY=-0.018;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="335" y="575" as="sourcePoint" />
-            <mxPoint x="425" y="500" as="targetPoint" />
+            <mxPoint x="404.0799999999999" y="599.01" as="sourcePoint" />
+            <mxPoint x="405" y="500" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="aNObFJ_koJKjJoRsx-cJ-157" value="" style="ellipse;whiteSpace=wrap;html=1;align=center;aspect=fixed;resizable=0;points=[];outlineConnect=0;sketch=0;fontSize=14;" vertex="1" parent="1">
-          <mxGeometry x="420" y="495" width="10" height="10" as="geometry" />
+          <mxGeometry x="400" y="495" width="10" height="10" as="geometry" />
         </mxCell>
         <mxCell id="aNObFJ_koJKjJoRsx-cJ-158" value="CAFF&lt;br&gt;azonosító&lt;br&gt;lekérése" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
-          <mxGeometry x="340" y="470" width="80" height="60" as="geometry" />
+          <mxGeometry x="320" y="470" width="80" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="aNObFJ_koJKjJoRsx-cJ-164" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;sketch=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;fontSize=14;" edge="1" target="aNObFJ_koJKjJoRsx-cJ-166" parent="1">
+        <mxCell id="aNObFJ_koJKjJoRsx-cJ-164" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;sketch=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;fontSize=14;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="455" y="600" as="sourcePoint" />
+            <mxPoint x="433" y="600" as="sourcePoint" />
+            <mxPoint x="433" y="510" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="aNObFJ_koJKjJoRsx-cJ-165" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=halfCircle;endFill=0;entryX=0.5;entryY=0.5;endSize=6;strokeWidth=1;sketch=0;fontSize=14;exitX=0.397;exitY=0.99;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" target="aNObFJ_koJKjJoRsx-cJ-166" parent="1" source="aNObFJ_koJKjJoRsx-cJ-107">
+        <mxCell id="aNObFJ_koJKjJoRsx-cJ-165" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=halfCircle;endFill=0;entryX=0.5;entryY=0.5;endSize=6;strokeWidth=1;sketch=0;fontSize=14;exitX=0.397;exitY=0.99;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="455" y="400" as="sourcePoint" />
+            <mxPoint x="431.52" y="394.45000000000005" as="sourcePoint" />
+            <mxPoint x="433" y="505" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="aNObFJ_koJKjJoRsx-cJ-166" value="" style="ellipse;whiteSpace=wrap;html=1;align=center;aspect=fixed;resizable=0;points=[];outlineConnect=0;sketch=0;fontSize=14;" vertex="1" parent="1">
-          <mxGeometry x="450" y="500" width="10" height="10" as="geometry" />
+          <mxGeometry x="428" y="500" width="10" height="10" as="geometry" />
         </mxCell>
         <mxCell id="aNObFJ_koJKjJoRsx-cJ-167" value="Megjegyzések&lt;br&gt;lekérése" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
-          <mxGeometry x="450" y="470" width="110" height="40" as="geometry" />
+          <mxGeometry x="428" y="470" width="110" height="40" as="geometry" />
         </mxCell>
         <mxCell id="aNObFJ_koJKjJoRsx-cJ-183" value="&lt;b&gt;Rendszeridő&lt;/b&gt;" style="html=1;dropTarget=0;" vertex="1" parent="1">
           <mxGeometry x="1020" y="152.5" width="160" height="55" as="geometry" />
@@ -402,6 +406,24 @@
           <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
             <mxPoint x="-27" y="7" as="offset" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="aNObFJ_koJKjJoRsx-cJ-190" value="CAFF tulajdonos&lt;br&gt;lekérése" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="538" y="470" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="aNObFJ_koJKjJoRsx-cJ-191" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;sketch=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;fontSize=14;exitX=0.219;exitY=1.012;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="538.9599999999999" y="395.00000000000006" as="sourcePoint" />
+            <mxPoint x="538.92" y="494.34" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aNObFJ_koJKjJoRsx-cJ-192" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=halfCircle;endFill=0;endSize=6;strokeWidth=1;sketch=0;fontSize=14;exitX=0.213;exitY=-0.018;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="537.9999999999999" y="599.35" as="sourcePoint" />
+            <mxPoint x="538.92" y="500.34" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aNObFJ_koJKjJoRsx-cJ-194" value="" style="ellipse;whiteSpace=wrap;html=1;align=center;aspect=fixed;resizable=0;points=[];outlineConnect=0;sketch=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="534" y="494" width="10" height="10" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
