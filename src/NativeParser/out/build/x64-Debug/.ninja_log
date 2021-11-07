@@ -1,0 +1,9 @@
+# ninja log v5
+4	257	6580228482006956	CMakeFiles/NativeParser.dir/Ciff.cpp.obj	293dcd5d5aa645d4
+1	421	6580228483655364	CMakeFiles/NativeParser.dir/NativeParser.cpp.obj	a6661a4f3bb99d04
+1	230	6580224101367436	CMakeFiles/NativeParser.dir/CaffBlockData.cpp.obj	c3c516a5d1f9c69c
+0	246	6580215389058888	CMakeFiles/NativeParser.dir/CaffBlock.cpp.obj	7d14c7e7e356893d
+421	804	6580228486636767	NativeParser.exe	9b0fe8375dd98595
+0	418	6580217670430051	CMakeFiles/NativeParser.dir/Caff.cpp.obj	9d5d3b65aed8b7ba
+1	413	6580228806039352	CMakeFiles/NativeParser.dir/NativeParser.cpp.obj	a6661a4f3bb99d04
+414	595	6580228807336104	NativeParser.exe	9b0fe8375dd98595
