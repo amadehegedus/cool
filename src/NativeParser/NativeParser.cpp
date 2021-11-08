@@ -8,9 +8,15 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
-	std::string inputfilePath = "../../../1.caff";
+	if (argc == 1)
+	{
+		cout << "Add the path of the CAFF file as a parameter! (relative to the exe file)" << endl;
+		return -1;
+	}
+	std::string inputfilePath = std::string(argv[1]);
+
 	std::ifstream is(inputfilePath, std::ifstream::binary);
 	if (is)
 	{
@@ -27,7 +33,7 @@ int main()
 	}
 	else
 	{
-		cout << "File could not be found!" << endl;
+		cout << "File " + inputfilePath + " could not be found!" << endl;
 	}
 
 	return 0;
