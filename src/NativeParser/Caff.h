@@ -10,4 +10,6 @@ public:
 	std::list<CaffBlock>::iterator blocksIterator = blocks.begin();
 
 	void ParseFromString(std::string caffString);
+
+	void generateBitmapsForAllCiffs(std::string basePath, std::string originalFilename);
 };

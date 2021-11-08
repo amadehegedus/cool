@@ -10,7 +10,8 @@ using namespace std;
 
 int main()
 {
-	std::ifstream is("../../../3.caff", std::ifstream::binary);
+	std::string inputfilePath = "../../../1.caff";
+	std::ifstream is(inputfilePath, std::ifstream::binary);
 	if (is)
 	{
 		is.seekg(0, is.end);
@@ -21,6 +22,8 @@ int main()
 
 		Caff caff;
 		caff.ParseFromString(buffer);
+
+		caff.generateBitmapsForAllCiffs(inputfilePath.substr(0, inputfilePath.rfind("/")), inputfilePath.substr(inputfilePath.rfind("/"), inputfilePath.rfind(".caff")));
 	}
 	else
 	{

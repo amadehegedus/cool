@@ -13,3 +13,18 @@ void Caff::ParseFromString(std::string caffString)
 		currentPosition += blockLength;
 	}
 }
+
+void Caff::generateBitmapsForAllCiffs(std::string basePath, std::string originalFilename)
+{
+	uint64_t currentBlock = 1;
+	for (const auto& block : blocks)
+	{
+		if (block.id == 3)	// Animation frame
+		{
+			std::string filename = originalFilename + "-bitmap" + std::to_string(currentBlock++);
+			std::string fullPath = basePath.empty() ? filename : basePath + "/" + filename;
+
+			block.data.ciff.generateAndStoreBitMap(fullPath);
+		}
+	}
+}

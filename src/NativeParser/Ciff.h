@@ -20,4 +20,6 @@ public:
 	void ParseFromString(std::string ciffString);
 
 	void splitAndStoreTags(std::string s, std::string del = " ");
+
+	void generateAndStoreBitMap(std::string fileName) const;
 };
