@@ -2,9 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Cool.Api.Authentication;
+using Cool.Api.ExceptionHandling;
 using Cool.API.Extensions;
+using Cool.Api.RequestContext;
+using Cool.Bll.AccountService;
+using Cool.Bll.Mappings;
 using Cool.Common.Options;
-using Cool.DAL;
+using Cool.Common.RequestContext;
+using Cool.Dal;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +20,9 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NSwag;
+using NSwag.Generation.Processors.Security;
+using AuthenticationOptions = Cool.Common.Options.AuthenticationOptions;
 
 namespace Cool.API
 {
@@ -32,14 +43,44 @@ namespace Cool.API
         {
             var connectionStringOptions = services.ConfigureOption<ConnectionStringOptions>(_configuration);
 
-            //Példa további options injektálására
-            //services.Configure<TodoOptions>(_configuration.GetSection(nameof(TodoOptions)));
+            services.Configure<AuthenticationOptions>(_configuration.GetSection(nameof(AuthenticationOptions)));
 
-            services.AddControllers();
-            services.AddSwaggerDocument();
+            services.AddHttpContextAccessor();
+
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<HttpResponseExceptionFilter>();
+            });
+
+            var mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new Mappings()));
+            var mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddAuthentication(AuthenticationSchemes.JwtBearer)
+                .AddScheme<AuthenticationSchemeOptions, JwtBearerAuthenticationHandler>(AuthenticationSchemes.JwtBearer, null);
+
+            services.AddAuthorization();
+
+            services.AddSwaggerDocument(c =>
+                {
+                    c.AddSecurity("Bearer", new OpenApiSecurityScheme
+                    {
+                        Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                                        Enter 'Bearer' [space] and then your token in the text input below.
+                                        \r\n\r\nExample: 'Bearer 12345abcdef'",
+                        Name = "Authorization",
+                        In = OpenApiSecurityApiKeyLocation.Header,
+                        Type = OpenApiSecuritySchemeType.ApiKey,
+                        Scheme = "Bearer"
+                    });
+
+                    c.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor());
+                });
             services.AddSpaStaticFiles(configuration => configuration.RootPath = "wwwroot");
             services.AddHttpContextAccessor();
 
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IRequestContext, RequestContext>();
             services.AddDAL(connectionStringOptions);
         }
 
@@ -54,6 +95,9 @@ namespace Cool.API
             }
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
