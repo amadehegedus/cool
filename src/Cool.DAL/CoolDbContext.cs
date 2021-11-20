@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Cool.DAL.Configurations;
+﻿using Cool.Dal.Configurations;
+using Cool.Dal.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cool.DAL
+namespace Cool.Dal
 {
     public class CoolDbContext : DbContext
     {
-        // public DbSet<TBD> TBDs { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public CoolDbContext(DbContextOptions<CoolDbContext> options) : base(options)
         {
