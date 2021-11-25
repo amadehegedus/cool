@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Cool.Common.DTOs;
+using Cool.Dal.Entities;
 
 namespace Cool.Bll.Mappings
 {
@@ -6,7 +8,11 @@ namespace Cool.Bll.Mappings
     {
         public Mappings()
         {
+            CreateMap<Caff, CaffDto>()
+                .ForMember(x => x.PreviewBitmap, o => o.Ignore());
 
+            CreateMap<Tag, TagDto>();
+            CreateMap<Comment, CommentDto>();
         }
     }
 }

@@ -1,8 +1,12 @@
-﻿using Cool.Common.Options;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Cool.Common.Options;
+using Cool.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Cool.Dal
+namespace Cool.DAL
 {
     public static class Wireup
     {
