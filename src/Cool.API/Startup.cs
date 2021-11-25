@@ -8,10 +8,12 @@ using Cool.Api.ExceptionHandling;
 using Cool.API.Extensions;
 using Cool.Api.RequestContext;
 using Cool.Bll.AccountService;
+using Cool.Bll.CaffService;
 using Cool.Bll.Mappings;
 using Cool.Common.Options;
 using Cool.Common.RequestContext;
 using Cool.Dal;
+using Cool.DAL;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -81,6 +83,7 @@ namespace Cool.API
 
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IRequestContext, RequestContext>();
+            services.AddScoped<ICaffService, CaffService>();
             services.AddDAL(connectionStringOptions);
         }
 

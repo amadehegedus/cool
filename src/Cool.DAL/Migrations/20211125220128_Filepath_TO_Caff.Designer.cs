@@ -4,14 +4,16 @@ using Cool.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cool.Dal.Migrations
 {
     [DbContext(typeof(CoolDbContext))]
-    partial class CoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211125220128_Filepath_TO_Caff")]
+    partial class Filepath_TO_Caff
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

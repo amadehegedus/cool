@@ -4,14 +4,16 @@ using Cool.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cool.Dal.Migrations
 {
     [DbContext(typeof(CoolDbContext))]
-    partial class CoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211125220044_Business_Init")]
+    partial class Business_Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +32,6 @@ namespace Cool.Dal.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Creator")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FilePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
