@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+
 using System.Threading.Tasks;
 using Cool.Common.DTOs;
 
@@ -8,6 +11,9 @@ namespace Cool.Bll.CaffService
 {
     public class CaffService : ICaffService
     {
+        private const string ParserPath= "../NativeParser/NativeParser.exe";
+        private const string CaffFilesPath = "../NativeParser/";
+
         public Task<List<CaffDto>> GetAllCaffs()
         {
             throw new NotImplementedException();
@@ -25,7 +31,21 @@ namespace Cool.Bll.CaffService
 
         public Task<byte[]> DownloadCaff(int caffId)
         {
-            throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                byte[] response = new byte[0];
+                if (!File.Exists($"{CaffFilesPath}{caffId}.caff"))
+                    return response;
+                GenerateImages(caffId);
+                Bitmap img = new Bitmap($"{CaffFilesPath}{caffId}.caff-bitmap1.bmp");
+                using (var stream = new MemoryStream())
+                {
+                    img.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+                    response = stream.ToArray();
+                }
+                img.Dispose();
+                return response;
+            });
         }
 
         public Task DeleteCaff(int caffId)
@@ -51,6 +71,21 @@ namespace Cool.Bll.CaffService
         public Task RemoveComment(int commentId)
         {
             throw new NotImplementedException();
+        }
+
+        private void GenerateImages(int caffId)
+        {
+            if (!File.Exists($"{CaffFilesPath}{caffId}.caff") || File.Exists($"{CaffFilesPath}{caffId}.caff-bitmap1.bmp"))
+                return;
+            ProcessStartInfo startInfo = new ProcessStartInfo(ParserPath);
+            startInfo.Arguments = $"{CaffFilesPath}{caffId}.caff";
+            startInfo.CreateNoWindow = true;
+            Process process = new Process
+            {
+                StartInfo = startInfo
+            };
+            process.Start();
+            process.WaitForExit();
         }
     }
 }
