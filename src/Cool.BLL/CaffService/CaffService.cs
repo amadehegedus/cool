@@ -118,9 +118,6 @@ namespace Cool.Bll.CaffService
             if (caff == null)
                 throw new NotFoundException($"Caff {caffId} could not be found!");
 
-            if (_requestContext.UserName != caff.Creator && _requestContext.Role != Role.Admin)
-                throw new BadRequestException($"{_requestContext.UserName} is not the creator of the Caff, and they aren't an admin, can't add comment!");
-
             _dbContext.Comments.Add(new Comment
             {
                 CaffId = caffId,

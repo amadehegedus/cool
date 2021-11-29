@@ -21,6 +21,7 @@ namespace Cool.Test.Database
 
         public static void Seed(CoolDbContext dbContext)
         {
+            dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
 
             dbContext.Caffs.Add(new Caff
