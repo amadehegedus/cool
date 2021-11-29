@@ -387,8 +387,12 @@ export class CaffService {
         return _observableOf<void>(<any>null);
     }
 
-    addComment(comment: string | null | undefined): Observable<void> {
+    addComment(caffId: number | undefined, comment: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/Caff/AddComment?";
+        if (caffId === null)
+            throw new Error("The parameter 'caffId' cannot be null.");
+        else if (caffId !== undefined)
+            url_ += "caffId=" + encodeURIComponent("" + caffId) + "&";
         if (comment !== undefined && comment !== null)
             url_ += "comment=" + encodeURIComponent("" + comment) + "&";
         url_ = url_.replace(/[?&]$/, "");
