@@ -67,9 +67,9 @@ namespace Cool.API.Controllers
         }
 
         [HttpPost]
-        public async Task AddComment(string comment)
+        public async Task AddComment(int caffId, string comment)
         {
-            await _caffService.AddComment(comment);
+            await _caffService.AddComment(caffId, comment);
         }
 
         [HttpDelete]
