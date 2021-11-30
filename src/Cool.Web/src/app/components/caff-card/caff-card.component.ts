@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { CaffDto } from 'src/app/api/app.generated';
+import { getImage } from '../../utils/imageUtil';
 
 @Component({
   selector: 'app-caff-card',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CaffCardComponent implements OnInit {
 
-  constructor() { }
+  @Input() caff: CaffDto = new CaffDto();
+  image: any;
+  constructor() {
+    getImage().then(img => this.image = img);
+   }
 
   ngOnInit(): void {
   }
