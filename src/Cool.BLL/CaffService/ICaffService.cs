@@ -10,6 +10,8 @@ namespace Cool.Bll.CaffService
     {
         public Task<List<CaffDto>> GetAllCaffs();
 
+        public Task<List<CaffDto>> GetOwnCaffs();
+
         public Task<List<CaffDto>> GetCaffsByTags(List<string> tags);
 
         public Task<int> UploadCaff(UploadCaffDto dto);

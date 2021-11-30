@@ -64,6 +64,34 @@ namespace Cool.Bll.CaffService
             return caffDtos;
         }
 
+        public async Task<List<CaffDto>> GetOwnCaffs()
+        {
+            _logger.LogDebug("User {username} is querying every caff of the user", _requestContext.UserName);
+
+            var caffs = await _dbContext.Caffs.Where(x => x.Creator == _requestContext.UserName).ToListAsync();
+            List<CaffDto> caffDtos = _mapper.Map<List<CaffDto>>(caffs);
+            var tags = await _dbContext.Tags.ToListAsync();
+            var comments = await _dbContext.Comments.ToListAsync();
+
+            for (int i = 0; i < caffDtos.Count; i++)
+            {
+                CaffDto caff = caffDtos[i];
+                var cafftags = tags.FindAll(x => x.CaffId == caff.Id);
+                caff.Tags.AddRange(_mapper.Map<List<TagDto>>(cafftags));
+
+                var caffcomments = comments.FindAll(x => x.CaffId == caff.Id);
+                caff.Comments.AddRange(_mapper.Map<List<CommentDto>>(caffcomments));
+
+                if (!File.Exists($"{caffs[i].FilePath}-bitmap1.bmp"))
+                    throw new NotFoundException($"Preview of Caff {caffs[i].Id} could not be found!");
+                caff.PreviewBitmap = File.ReadAllBytes($"{caffs[i].FilePath}-bitmap1.bmp");
+            }
+
+            _logger.LogDebug("User {username} successfully queryied every caff of the user", _requestContext.UserName);
+
+            return caffDtos;
+        }
+
         public async Task<List<CaffDto>> GetCaffsByTags(List<string> tags)
         {
             _logger.LogDebug("User {username} is querying caffs by tags {tags}", _requestContext.UserName, tags);
