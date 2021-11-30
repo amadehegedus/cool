@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CaffDto, TagDto } from 'src/app/api/app.generated';
+import { TokenDecoderService } from 'src/app/services/token-decoder.service';
 
 @Component({
   selector: 'app-browser',
@@ -8,9 +9,9 @@ import { CaffDto, TagDto } from 'src/app/api/app.generated';
 })
 export class BrowserComponent implements OnInit {
   caffs: CaffDto[];
-  filterOptions : string;
+  filterOptions: string;
 
-  constructor() {
+  constructor(private decoder: TokenDecoderService) {
     this.filterOptions = '';
     this.caffs = [];
     this.caffs = [
@@ -19,7 +20,7 @@ export class BrowserComponent implements OnInit {
         creationTime: new Date(),
         creator: 'hello',
         tags: [
-          new TagDto({id: 0, text: 'asd'})
+          new TagDto({ id: 0, text: 'asd' })
         ]
       }),
       new CaffDto({
@@ -27,7 +28,7 @@ export class BrowserComponent implements OnInit {
         creationTime: new Date(),
         creator: 'hello',
         tags: [
-          new TagDto({id: 0, text: 'bfc'})
+          new TagDto({ id: 0, text: 'bfc' })
         ]
       }),
       new CaffDto({
@@ -35,7 +36,7 @@ export class BrowserComponent implements OnInit {
         creationTime: new Date(),
         creator: 'hello',
         tags: [
-          new TagDto({id: 0, text: 'asd'})
+          new TagDto({ id: 0, text: 'asd' })
         ]
       }),
       new CaffDto({
@@ -43,7 +44,7 @@ export class BrowserComponent implements OnInit {
         creationTime: new Date(),
         creator: 'hello',
         tags: [
-          new TagDto({id: 0, text: 'bfc'})
+          new TagDto({ id: 0, text: 'bfc' })
         ]
       }),
       new CaffDto({
@@ -51,7 +52,7 @@ export class BrowserComponent implements OnInit {
         creationTime: new Date(),
         creator: 'hello',
         tags: [
-          new TagDto({id: 0, text: 'asd'})
+          new TagDto({ id: 0, text: 'asd' })
         ]
       }),
       new CaffDto({
@@ -59,7 +60,7 @@ export class BrowserComponent implements OnInit {
         creationTime: new Date(),
         creator: 'hello',
         tags: [
-          new TagDto({id: 0, text: 'bfc'})
+          new TagDto({ id: 0, text: 'bfc' })
         ]
       }),
       new CaffDto({
@@ -67,7 +68,7 @@ export class BrowserComponent implements OnInit {
         creationTime: new Date(),
         creator: 'hello',
         tags: [
-          new TagDto({id: 0, text: 'asd'})
+          new TagDto({ id: 0, text: 'asd' })
         ]
       }),
       new CaffDto({
@@ -75,7 +76,7 @@ export class BrowserComponent implements OnInit {
         creationTime: new Date(),
         creator: 'hello',
         tags: [
-          new TagDto({id: 0, text: 'bfc'})
+          new TagDto({ id: 0, text: 'bfc' })
         ]
       }),
       new CaffDto({
@@ -83,7 +84,7 @@ export class BrowserComponent implements OnInit {
         creationTime: new Date(),
         creator: 'hello',
         tags: [
-          new TagDto({id: 0, text: 'asd'})
+          new TagDto({ id: 0, text: 'asd' })
         ]
       }),
       new CaffDto({
@@ -91,21 +92,22 @@ export class BrowserComponent implements OnInit {
         creationTime: new Date(),
         creator: 'hello',
         tags: [
-          new TagDto({id: 0, text: 'bfc'})
+          new TagDto({ id: 0, text: 'bfc' })
         ]
       }),
     ]
-   }
+  }
 
   ngOnInit(): void {
+    console.log(this.decoder.getPayload().role)
   }
 
   filterCaffs(): CaffDto[] {
-    if(this.filterOptions === '') {
+    if (this.filterOptions === '') {
       return this.caffs;
     }
     return this.caffs.filter(c => {
-      if(c.tags?.filter(ct => ct.text === this.filterOptions || ct.text?.startsWith(this.filterOptions)).length === 0){
+      if (c.tags?.filter(ct => ct.text === this.filterOptions || ct.text?.startsWith(this.filterOptions)).length === 0) {
         return false;
       }
       return true;

@@ -44,13 +44,13 @@ export class LoginComponent implements OnInit {
   }
 
   private login() {
-    console.log(this.formModel);
     this.accountService.getSaltForUser(this.formModel.username).subscribe(
       //Salt
       (response) => {
         let loginDto = this.getLoginDto(response);
         this.accountService.login(loginDto).subscribe(
           (response) => {
+            localStorage.setItem("username", this.formModel.username);
             localStorage.setItem("token", response);
             this.router.navigate(['browser']);
           },

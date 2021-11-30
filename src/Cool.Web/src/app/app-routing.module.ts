@@ -5,6 +5,7 @@ import { UploaderComponent } from "./components/uploader/uploader.component";
 import { ProfileComponent } from "./components/profile/profile.component";
 import { RegistrationComponent } from './components/registration/registration.component';
 import { LoginComponent } from './components/login/login.component';
+import { RoleGuardService } from './services/role-guard.service';
 
 const routes: Routes = [
   {
@@ -18,17 +19,17 @@ const routes: Routes = [
   {
     path: 'browser',
     component: BrowserComponent,
-    //canActivate: [RoleGuardService],
+    canActivate: [RoleGuardService],
   },
   {
     path: 'upload',
     component: UploaderComponent,
-    //canActivate: [RoleGuardService],
+    canActivate: [RoleGuardService],
   },
   {
     path: 'profile',
     component: ProfileComponent,
-    //canActivate: [RoleGuardService],
+    canActivate: [RoleGuardService],
   },
   {
     path: '**',
