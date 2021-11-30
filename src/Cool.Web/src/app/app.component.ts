@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CaffDto, CaffService } from './api/app.generated';
 
 @Component({
   selector: 'app-root',

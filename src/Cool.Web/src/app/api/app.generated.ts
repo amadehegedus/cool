@@ -29,6 +29,7 @@ export class CaffService {
 
     getAllCaffs(): Observable<CaffDto[]> {
         let url_ = this.baseUrl + "/api/Caff/GetAllCaffs";
+        alert(url_);
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: any = {
