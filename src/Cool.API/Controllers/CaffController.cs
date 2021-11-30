@@ -31,16 +31,19 @@ namespace Cool.API.Controllers
         }
 
         [HttpGet]
+        public async Task<List<CaffDto>> GetOwnCaffs()
+        {
+            return await _caffService.GetOwnCaffs();
+        }
+
+        [HttpGet]
         public async Task<List<CaffDto>> GetCaffsByTags(List<string> tags)
         {
             return await _caffService.GetCaffsByTags(tags);
         }
 
         [HttpPost]
-        public async Task UploadCaff(UploadCaffDto dto)
-        {
-            await _caffService.UploadCaff(dto);
-        }
+        public async Task<int> UploadCaff(UploadCaffDto dto) => await _caffService.UploadCaff(dto);
 
         [HttpGet]
         public async Task<byte[]> DownloadCaff(int caffId)
