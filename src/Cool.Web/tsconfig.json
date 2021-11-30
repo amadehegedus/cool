@@ -4,6 +4,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "types": [
+      "node"
+    ],
     "paths": {
       "tslib": [
         "path/to/node_modules/tslib/tslib.d.ts"

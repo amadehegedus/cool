@@ -7,36 +7,57 @@
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                 <form>
                     <div class="divider d-flex align-items-center my-4">
-                        <h3 class="text-center fw-bold mx-3 mb-0">Regisztráció</h3>
+                        <h2 class="text-center fw-bold mx-3 mb-0">Regisztráció</h2>
                     </div>
 
                     <div class="form-outline mb-4">
                         <label class="form-label" for="fullname">Név</label>
-                        <input type="text" id="fullname" class="form-control form-control-lg" />
+                        <input [(ngModel)]="formModel.name" type="text" id="fullname" name="fullname" class="form-control form-control-lg" />
                     </div>
 
                     <div class="form-outline mb-4">
                         <label class="form-label" for="email">E-mail</label>
-                        <input type="email" id="email" class="form-control form-control-lg" />
+                        <input [(ngModel)]="formModel.email" type="email" id="email" name="email" class="form-control form-control-lg" />
                     </div>
 
                     <div class="form-outline mb-4">
                         <label class="form-label" for="username">Felhasználónév</label>
-                        <input type="text" id="username" class="form-control form-control-lg" />
+                        <input [(ngModel)]="formModel.username" type="text" id="username" name="username" class="form-control form-control-lg" />
                     </div>
 
                     <div class="form-outline mb-3">
                         <label class="form-label" for="password">Jelszó</label>
-                        <input type="password" id="password" class="form-control form-control-lg" />
+                        <input [(ngModel)]="formModel.password" type="password" id="password" name="password" class="form-control form-control-lg" />
                     </div>
 
                     <div class="form-outline mb-3">
                         <label class="form-label" for="repassword">Jelszó újra</label>
-                        <input type="password" id="repassword" class="form-control form-control-lg" />
+                        <input [(ngModel)]="formModel.repassword" type="password" id="repassword" name="repassword" class="form-control form-control-lg" />
+                    </div>
+
+                    <div class="alerts mt-4">
+                        <div class="alert alert-danger" role="alert" id="emailAlert" *ngIf="emailAlert">
+                            Ez az email cím már foglalt!
+                        </div>
+                        <div class="alert alert-danger" role="alert" id="usernameAlert" *ngIf="usernameAlert">
+                            Ez a felhasználónév már foglalt!
+                        </div>
+                        <div class="alert alert-danger" role="alert" id="passwordAlert" *ngIf="passwordAlert">
+                            A megadott jelszavak nem egyeznek!
+                        </div>
+                        <div class="alert alert-danger" role="alert" id="emptyInputAlert" *ngIf="emptyInputAlert">
+                            Töls ki minden adatot!
+                        </div>
+                        <div class="alert alert-danger" role="alert" id="shortPasswordAlert" *ngIf="shortPasswordAlert">
+                            Legalább 8 karakter hosszúságú jelszót használj!
+                        </div>
+                        <div class="alert alert-warning" role="alert" id="serverAlert" *ngIf="serverAlert">
+                            Sikertelen regisztráció, a szerver nem elérhető!
+                        </div>
                     </div>
 
                     <div class="text-center text-lg-start mt-4 pt-2">
-                        <button type="button" class="btn btn-outline-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Regisztráció</button>
+                        <button type="button" class="btn btn-outline-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;" (click)="onClickRegistration()">Regisztráció</button>
                         <p class="small fw-bold mt-2 pt-1 mb-0">Van már fiókod? <a href="#!" class="link-danger">Bejelentkezés</a></p>
                     </div>
                 </form>
