@@ -22,7 +22,7 @@ namespace Cool.Bll.CaffService
 
         public Task RemoveTag(int tagId);
 
-        public Task AddComment(string comment);
+        public Task AddComment(int caffId, string comment);
 
         public Task RemoveComment(int commentId);
     }
