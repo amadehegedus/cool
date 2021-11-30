@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import * as shajs from 'sha.js';
 import { AccountService, ILoginDto, LoginDto } from 'src/app/api/app.generated';
 
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
     password: string;
   } = { username: "", password: "" };
 
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -51,8 +52,7 @@ export class LoginComponent implements OnInit {
         this.accountService.login(loginDto).subscribe(
           (response) => {
             localStorage.setItem("token", response);
-            //TODO: redirect to home
-            alert("TODO: redirect to home " + response);
+            this.router.navigate(['browser']);
           },
           (err) => {
             switch (err.status) {

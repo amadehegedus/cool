@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService, IRegisterDto, RegisterDto } from 'src/app/api/app.generated';
-declare var bootstrap: any;
 import * as shajs from 'sha.js';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -24,7 +24,7 @@ export class RegistrationComponent implements OnInit {
     repassword: string;
   } = { name: "", email: "", username: "", password: "", repassword: "" };
 
-  constructor(private accountService: AccountService) {
+  constructor(private accountService: AccountService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -89,8 +89,7 @@ export class RegistrationComponent implements OnInit {
   private registration() {
     this.accountService.register(this.getRegisterDto()).subscribe(
       () => {
-        //TODO: redirect to login
-        alert("TODO: redirect to login");
+        this.router.navigate(['login']);
       },
       (err) => {
         switch (err.status) {
