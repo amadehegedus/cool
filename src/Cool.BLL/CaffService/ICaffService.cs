@@ -16,7 +16,7 @@ namespace Cool.Bll.CaffService
 
         public Task<int> UploadCaff(UploadCaffDto dto);
 
-        public Task<byte[]> DownloadCaff(int caffId);
+        public Task<(byte[], string)> DownloadCaff(int caffId);
 
         public Task DeleteCaff(int caffId);
 

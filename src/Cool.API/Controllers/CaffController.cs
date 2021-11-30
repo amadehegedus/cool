@@ -46,9 +46,10 @@ namespace Cool.API.Controllers
         public async Task<int> UploadCaff(UploadCaffDto dto) => await _caffService.UploadCaff(dto);
 
         [HttpGet]
-        public async Task<byte[]> DownloadCaff(int caffId)
+        public async Task<ActionResult> DownloadCaff(int caffId)
         {
-            return await _caffService.DownloadCaff(caffId);
+            var (bytes, name) = await _caffService.DownloadCaff(caffId);
+            return File(bytes, "application/octet-stream", $"{name}");
         }
 
         [HttpDelete]

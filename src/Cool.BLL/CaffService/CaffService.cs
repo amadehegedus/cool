@@ -151,14 +151,14 @@ namespace Cool.Bll.CaffService
            // _dbContext.Tags.AddRange(tags);
 
             await _dbContext.SaveChangesAsync();
-            await GenerateImages(caff, dto.CaffBytes);
+            await GenerateImages(caff, Convert.FromBase64String(dto.CaffBase64String));
 
             _logger.LogDebug("Caff successfully uploaded by {username}", _requestContext.UserName);
 
             return caff.Id;
         }
 
-        public async Task<byte[]> DownloadCaff(int caffId)
+        public async Task<(byte[], string)> DownloadCaff(int caffId)
         {
             _logger.LogDebug("User {username} is downloading caffId={caffid}", _requestContext.UserName, caffId);
 
@@ -172,7 +172,7 @@ namespace Cool.Bll.CaffService
 
             _logger.LogDebug("User {username} downloaded caffId={caffid}", _requestContext.UserName, caffId);
 
-            return File.ReadAllBytes(caff.FilePath);           
+            return (File.ReadAllBytes(caff.FilePath), caff.FilePath.Split('\\')[^1]);           
         }
 
         public async Task DeleteCaff(int caffId)
