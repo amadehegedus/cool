@@ -87,8 +87,20 @@ export class RegistrationComponent implements OnInit {
   }
 
   private registration() {
-    this.accountService.register(this.getRegisterDto()).subscribe(result => {
-      console.log(result);
-    })
+    this.accountService.register(this.getRegisterDto()).subscribe(
+      () => {
+        //TODO: redirect to login
+        alert("TODO: redirect to login");
+      },
+      (err) => {
+        switch (err.status) {
+          case 400:
+            this.usernameAlert = true;
+            break;
+          default:
+            this.serverAlert = true;
+        }
+      }
+    );
   }
 }
