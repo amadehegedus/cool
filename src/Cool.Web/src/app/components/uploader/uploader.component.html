@@ -15,7 +15,7 @@
   <div class="d-flex flex-row-reverse">
     <div>
       <button type="button" class="btn btn-outline-primary btn-lg mt-3" (click)="uploadCaff()" [disabled]="this.file.data === '' || isLoading" >
-        <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Feltöltés
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Feltöltés
       </button>
     </div>
     <div *ngIf="getSuccessEnabled()"  class="alert alert-success mt-2 me-3" role="alert">

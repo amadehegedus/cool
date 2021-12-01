@@ -16,6 +16,15 @@ export class UserManagementService {
   }
 
   public isAdmin(): boolean {
-    return this.getPayload().role === 'User';
+    return this.getPayload().role !== 'User';
+  }
+
+  public getUsername(): string {
+    return this.getPayload().nameid;
+  }
+
+  public logout(): void {
+    localStorage.removeItem('token');
+    location.reload();
   }
 }

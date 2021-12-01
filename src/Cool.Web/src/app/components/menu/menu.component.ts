@@ -17,13 +17,12 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  logout(): void {
-
+  getUsername(): string {
+    return this.userManagement.getUsername();
   }
 
-  getUsername(): string {
-    const userId: string = this.userManagement.getPayload().nameid;
-    return userId? userId : 'username';
+  logout(): void {
+    this.userManagement.logout();
   }
 
 }

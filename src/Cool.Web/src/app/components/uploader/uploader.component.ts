@@ -18,6 +18,7 @@ export class UploaderComponent implements OnInit {
 
   ngOnInit(): void {}
 
+
   uploadCaff(): void {
     this.isLoading = true;
     this.tags = this.tags.map(t => t.toLowerCase());
