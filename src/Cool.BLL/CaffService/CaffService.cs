@@ -21,8 +21,8 @@ namespace Cool.Bll.CaffService
 {
     public class CaffService : ICaffService
     {
-        private const string ParserPath= "../NativeParser/NativeParser.exe";
-        private const string CaffFilesPath = "../CaffFiles/";
+        private string ParserPath= "../NativeParser/NativeParser.exe";
+        private string CaffFilesPath = "../CaffFiles/";
 
         private readonly IRequestContext _requestContext;
         private readonly CoolDbContext _dbContext;
@@ -139,18 +139,12 @@ namespace Cool.Bll.CaffService
                 FilePath = $"{CaffFilesPath}{Guid.NewGuid()}.caff",
             };
             
-
-            //List<Tag> tags = new List<Tag>();
             foreach(string tag in dto.Tags)
             {
-                //Tag tag1 = new Tag {Text = tag};
-                //tags.Add(tag1);
                 caff.Tags.Add(new Tag { Text = tag });
             }
-            //caff.Tags.
 
             _dbContext.Caffs.Add(caff);
-           // _dbContext.Tags.AddRange(tags);
 
             await _dbContext.SaveChangesAsync();
             await GenerateImages(caff, dto.File);
@@ -314,6 +308,16 @@ namespace Cool.Bll.CaffService
                     return false;
             }
             return true;
+        }
+
+        public void SetCaffFilesPath(string path)
+        {
+            CaffFilesPath = path;
+        }
+
+        public void SetParserPath(string path)
+        {
+            ParserPath = path;
         }
     }
 }
