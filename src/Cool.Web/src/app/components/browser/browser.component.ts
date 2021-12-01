@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {CaffDto, CaffService, CommentDto, TagDto} from 'src/app/api/app.generated';
+import { CaffDto, CaffService, CommentDto, TagDto } from 'src/app/api/app.generated';
 import { UserManagementService } from 'src/app/services/user-management.service';
 import { getDateString } from 'src/app/utils/dateTimeUtil';
-import {faComment, faHashtag, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+import { faComment, faHashtag, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-browser',
@@ -28,7 +28,7 @@ export class BrowserComponent implements OnInit {
     this.loadData();
   }
 
-  loadData() :void {
+  loadData(): void {
     this.api.getAllCaffs().subscribe(result => {
       this.caffs = result;
       this.isLoading = false;
@@ -36,7 +36,6 @@ export class BrowserComponent implements OnInit {
       this.isLoading = false;
     });
   }
-  ngOnInit(): void {  }
 
   filterCaffs(): CaffDto[] {
     if (this.filterOptions === '') {
@@ -57,7 +56,7 @@ export class BrowserComponent implements OnInit {
   }
 
 
-  addComment(caffId: number) : void {
+  addComment(caffId: number): void {
     this.api.addComment(caffId, this.newComment).subscribe(r => {
       this.loadData();
       this.newComment = '';
@@ -88,13 +87,13 @@ export class BrowserComponent implements OnInit {
     });
   }
 
-  tagsCaffClicked(caffId: number) : void {
+  tagsCaffClicked(caffId: number): void {
     this.selectedForTagModifyCaffId = caffId;
     this.modifyTags = Object.create(this.caffs.find(c => c.id === this.selectedForTagModifyCaffId)?.tags!);
   }
 
-  getComments(): CommentDto[]  {
-    if(this.selectedForMessageModifyCaffId !== -1) {
+  getComments(): CommentDto[] {
+    if (this.selectedForMessageModifyCaffId !== -1) {
       return this.caffs.find(c => c.id === this.selectedForMessageModifyCaffId)?.comments!;
     }
     return [];

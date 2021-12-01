@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {faComment, faHashtag, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+import { Component } from '@angular/core';
+import { faComment, faHashtag, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { getDateString } from 'src/app/utils/dateTimeUtil';
-import {CaffDto, CaffService, CommentDto, TagDto} from "../../api/app.generated";
-import {UserManagementService} from "../../services/user-management.service";
+import { CaffDto, CaffService, CommentDto, TagDto } from "../../api/app.generated";
+import { UserManagementService } from "../../services/user-management.service";
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
   faComment = faComment;
   faTrashAlt = faTrashAlt;
   faHashTag = faHashtag;
@@ -28,7 +28,7 @@ export class ProfileComponent implements OnInit {
     this.loadData();
   }
 
-  loadData() :void {
+  loadData(): void {
     this.api.getOwnCaffs().subscribe(result => {
       this.caffs = result;
       this.isLoading = false;
@@ -36,7 +36,6 @@ export class ProfileComponent implements OnInit {
       this.isLoading = false;
     });
   }
-  ngOnInit(): void {  }
 
   filterCaffs(): CaffDto[] {
     if (this.filterOptions === '') {
@@ -57,7 +56,7 @@ export class ProfileComponent implements OnInit {
   }
 
 
-  addComment(caffId: number) : void {
+  addComment(caffId: number): void {
     this.api.addComment(caffId, this.newComment).subscribe(r => {
       this.loadData();
       this.newComment = '';
@@ -88,19 +87,19 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  tagsCaffClicked(caffId: number) : void {
+  tagsCaffClicked(caffId: number): void {
     this.selectedForTagModifyCaffId = caffId;
     this.modifyTags = Object.create(this.caffs.find(c => c.id === this.selectedForTagModifyCaffId)?.tags!);
   }
 
-  getComments(): CommentDto[]  {
-    if(this.selectedForMessageModifyCaffId !== -1) {
+  getComments(): CommentDto[] {
+    if (this.selectedForMessageModifyCaffId !== -1) {
       return this.caffs.find(c => c.id === this.selectedForMessageModifyCaffId)?.comments!;
     }
     return [];
   }
 
-  isOwnComment(userName?: string) :boolean {
+  isOwnComment(userName?: string): boolean {
     if (userName) {
       return this.userManagement.getUsername() === userName;
     }

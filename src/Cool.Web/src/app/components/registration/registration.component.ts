@@ -92,12 +92,11 @@ export class RegistrationComponent implements OnInit {
         this.router.navigate(['login']);
       },
       (err) => {
-        switch (err.status) {
-          case 400:
-            this.usernameAlert = true;
-            break;
-          default:
-            this.serverAlert = true;
+        if (err.status == 400) {
+          this.usernameAlert = true;
+        }
+        else {
+          this.serverAlert = true;
         }
       }
     );

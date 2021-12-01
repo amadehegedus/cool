@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import * as shajs from 'sha.js';
 import { AccountService, ILoginDto, LoginDto } from 'src/app/api/app.generated';
@@ -8,7 +8,7 @@ import { AccountService, ILoginDto, LoginDto } from 'src/app/api/app.generated';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   public errorAlert: boolean = false;
   public serverAlert: boolean = false;
 
@@ -18,9 +18,6 @@ export class LoginComponent implements OnInit {
   } = { username: "", password: "" };
 
   constructor(private accountService: AccountService, private router: Router) { }
-
-  ngOnInit(): void {
-  }
 
   private resetAlerts() {
     this.errorAlert = false;
@@ -46,33 +43,31 @@ export class LoginComponent implements OnInit {
   private login() {
     this.accountService.getSaltForUser(this.formModel.username).subscribe(
       //Salt
-      (response) => {
-        let loginDto = this.getLoginDto(response);
+      (saltResponse) => {
+        let loginDto = this.getLoginDto(saltResponse);
         this.accountService.login(loginDto).subscribe(
-          (response) => {
+          (tokenResponse) => {
             localStorage.setItem("username", this.formModel.username);
-            localStorage.setItem("token", response);
+            localStorage.setItem("token", tokenResponse);
             this.router.navigate(['browser']);
           },
           (err) => {
-            switch (err.status) {
-              case 400:
-                this.errorAlert = true;
-                break;
-              default:
-                this.serverAlert = true;
+            if (err.status == 400) {
+              this.errorAlert = true;
+            }
+            else {
+              this.serverAlert = true;
             }
           }
         );
       },
       //Error handling by alerts
       (err) => {
-        switch (err.status) {
-          case 404:
-            this.errorAlert = true;
-            break;
-          default:
-            this.serverAlert = true;
+        if (err.status == 404) {
+          this.errorAlert = true;
+        }
+        else {
+          this.serverAlert = true;
         }
       }
     );
