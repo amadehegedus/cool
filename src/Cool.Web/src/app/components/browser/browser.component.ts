@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {CaffDto, CaffService, CommentDto, TagDto} from 'src/app/api/app.generated';
-import { TokenDecoderService } from 'src/app/services/token-decoder.service';
+import { UserManagementService } from 'src/app/services/user-management.service';
 
 @Component({
   selector: 'app-browser',
@@ -11,7 +11,7 @@ export class BrowserComponent implements OnInit {
   caffs: CaffDto[];
   filterOptions: string;
 
-  constructor(private decoder: TokenDecoderService, private api: CaffService) {
+  constructor(private userManagement: UserManagementService, private api: CaffService) {
     this.filterOptions = '';
     this.caffs = [];
     this.caffs = [
@@ -54,9 +54,7 @@ export class BrowserComponent implements OnInit {
     //this.api.getAllCaffs().subscribe(result => console.log(result));
   }
 
-  ngOnInit(): void {
-    console.log(this.decoder.getPayload().role)
-  }
+  ngOnInit(): void {  }
 
   filterCaffs(): CaffDto[] {
     if (this.filterOptions === '') {
