@@ -7,6 +7,8 @@ void CaffBlockData::ParseFromString(std::string caffDataString, uint8_t type)
 	case 1: 
 	{
 		magic = caffDataString.substr(0, 4);
+		if (magic != "CAFF")
+			throw "Invalid Caff header - wrong magic";
 		headerSize = *(uint64_t*)caffDataString.substr(4, 8).c_str();
 		numberOfAnimationBlocks = *(uint64_t*)caffDataString.substr(12, 8).c_str();
 		break;
