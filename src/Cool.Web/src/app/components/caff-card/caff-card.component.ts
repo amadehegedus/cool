@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CaffDto, CaffService } from 'src/app/api/app.generated';
 import { getImage } from '../../utils/imageUtil';
-import {TokenDecoderService} from "../../services/token-decoder.service";
 import {getDateString} from "../../utils/dateTimeUtil";
 import { saveAs } from 'file-saver';
+import {UserManagementService} from "../../services/user-management.service";
 
 @Component({
   selector: 'app-caff-card',
@@ -16,7 +16,7 @@ export class CaffCardComponent implements OnInit {
   imageSrc: string = '';
   newComment: string = '';
 
-  constructor(private api: CaffService, private decoder: TokenDecoderService,) {}
+  constructor(private api: CaffService, private userManagement: UserManagementService ) {}
 
   ngOnInit(): void {
     this.imageSrc = getImage(this.caff.previewBitmap);
@@ -29,7 +29,7 @@ export class CaffCardComponent implements OnInit {
   }
 
   isAdmin() {
-    return this.decoder.getPayload().role === 'User';
+    return this.userManagement.getPayload().role === 'User';
   }
 
   getDateString(timeStamp: Date) {
