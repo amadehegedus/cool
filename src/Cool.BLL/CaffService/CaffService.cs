@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Cool.Common.DTOs;
@@ -151,7 +151,7 @@ namespace Cool.Bll.CaffService
            // _dbContext.Tags.AddRange(tags);
 
             await _dbContext.SaveChangesAsync();
-            await GenerateImages(caff, dto.CaffBytes);
+            await GenerateImages(caff, dto.CaffString);
 
             _logger.LogDebug("Caff successfully uploaded by {username}", _requestContext.UserName);
 
@@ -278,11 +278,11 @@ namespace Cool.Bll.CaffService
             _logger.LogDebug("CommentId={id} successfully removed by {userName}", commentId, _requestContext.UserName);
         }
 
-        private async Task GenerateImages(Caff caff, byte[] CaffBytes)
+        private async Task GenerateImages(Caff caff, string caffString)
         {
             await Task.Run(() =>
             {
-                File.WriteAllBytes(caff.FilePath, CaffBytes);
+                File.WriteAllText(caff.FilePath, caffString);
                 ProcessStartInfo startInfo = new ProcessStartInfo(ParserPath);
                 startInfo.Arguments = caff.FilePath;
                 startInfo.CreateNoWindow = true;

@@ -7,6 +7,6 @@ namespace Cool.Common.DTOs
     public class UploadCaffDto
     {
         public List<string> Tags { get; set; }
-        public byte[] CaffBytes { get; set; }
+        public string CaffString { get; set; }
     }
 }

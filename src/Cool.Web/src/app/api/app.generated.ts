@@ -869,7 +869,7 @@ export interface ICommentDto {
 
 export class UploadCaffDto implements IUploadCaffDto {
     tags?: string[] | undefined;
-    caffBytes?: string | undefined;
+    caffString?: string | undefined;
 
     constructor(data?: IUploadCaffDto) {
         if (data) {
@@ -887,7 +887,7 @@ export class UploadCaffDto implements IUploadCaffDto {
                 for (let item of _data["tags"])
                     this.tags!.push(item);
             }
-            this.caffBytes = _data["caffBytes"];
+            this.caffString = _data["caffString"];
         }
     }
 
@@ -905,14 +905,14 @@ export class UploadCaffDto implements IUploadCaffDto {
             for (let item of this.tags)
                 data["tags"].push(item);
         }
-        data["caffBytes"] = this.caffBytes;
+        data["caffString"] = this.caffString;
         return data; 
     }
 }
 
 export interface IUploadCaffDto {
     tags?: string[] | undefined;
-    caffBytes?: string | undefined;
+    caffString?: string | undefined;
 }
 
 export class RegisterDto implements IRegisterDto {
