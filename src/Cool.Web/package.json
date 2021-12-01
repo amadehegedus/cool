@@ -32,7 +32,7 @@
     "rxjs": "~6.6.0",
     "salted-sha256": "^1.0.0",
     "save-dev": "^0.0.1-security",
-    "sha.js": "^2.4.9",
+    "sha.js": "^2.4.11",
     "sonar-scanner": "^3.1.0",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"
