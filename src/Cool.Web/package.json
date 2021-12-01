@@ -32,7 +32,7 @@
         "rxjs": "~6.6.0",
         "salted-sha256": "^1.0.0",
         "save-dev": "^0.0.1-security",
-        "sha.js": "^2.4.9",
+        "sha.js": "^2.4.11",
         "sonar-scanner": "^3.1.0",
         "tslib": "^2.3.1",
         "zone.js": "~0.11.4"
@@ -42,7 +42,7 @@
         "@angular/cli": "~12.2.11",
         "@angular/compiler-cli": "~12.2.0",
         "@types/file-saver": "^2.0.4",
-        "@types/jasmine": "~3.8.0",
+        "@types/jasmine": "^3.10.2",
         "@types/node": "^12.20.37",
         "@types/sha.js": "^2.4.0",
         "jasmine-core": "~3.8.0",
