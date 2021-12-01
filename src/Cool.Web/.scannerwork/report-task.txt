@@ -2,5 +2,5 @@ projectKey=cool-app
 serverUrl=http://localhost:9000
 serverVersion=9.2.1.49989
 dashboardUrl=http://localhost:9000/dashboard?id=cool-app
-ceTaskId=AX12etai4WAAjA2_8SDQ
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AX12etai4WAAjA2_8SDQ
+ceTaskId=AX12olIz4WAAjA2_8SFb
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AX12olIz4WAAjA2_8SFb
