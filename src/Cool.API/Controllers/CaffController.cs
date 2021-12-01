@@ -43,9 +43,9 @@ namespace Cool.API.Controllers
         }
 
         [HttpPost]
-        public async Task<int> UploadCaff([FromForm] IFormFile file, [FromBody] UploadCaffDto dto)
+        public async Task<int> UploadCaff([FromForm] UploadCaffDto dto)
         {
-            return await _caffService.UploadCaff(file, dto);
+            return await _caffService.UploadCaff(dto);
         }
 
         [HttpGet]

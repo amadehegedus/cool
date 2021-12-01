@@ -127,7 +127,7 @@ namespace Cool.Bll.CaffService
             return filtered;
         }
 
-        public async Task<int> UploadCaff(IFormFile file, UploadCaffDto dto)
+        public async Task<int> UploadCaff(UploadCaffDto dto)
         {
             _logger.LogDebug("User {username} is uploading a caff", _requestContext.UserName);
             
@@ -152,7 +152,7 @@ namespace Cool.Bll.CaffService
            // _dbContext.Tags.AddRange(tags);
 
             await _dbContext.SaveChangesAsync();
-            await GenerateImages(caff, file);
+            await GenerateImages(caff, dto.File);
 
             _logger.LogDebug("Caff successfully uploaded by {username}", _requestContext.UserName);
 

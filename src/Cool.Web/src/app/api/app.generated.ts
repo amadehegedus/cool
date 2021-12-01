@@ -196,40 +196,21 @@ export class CaffService {
         return _observableOf<CaffDto[]>(<any>null);
     }
 
-    /**
-     * @param contentType (optional) Gets the raw Content-Type header of the uploaded file.
-     * @param contentDisposition (optional) Gets the raw Content-Disposition header of the uploaded file.
-     * @param headers (optional) Gets the header dictionary of the uploaded file.
-     * @param length (optional) Gets the file length in bytes.
-     * @param name (optional) Gets the form field name from the Content-Disposition header.
-     * @param fileName (optional) Gets the file name from the Content-Disposition header.
-     */
-    uploadCaff(contentType: string | null | undefined, contentDisposition: string | null | undefined, headers: IHeaderDictionary | null | undefined, length: number | undefined, name: string | null | undefined, fileName: string | null | undefined, dto: UploadCaffDto): Observable<number> {
+    uploadCaff(file: FileParameter | null | undefined, tags: string[] | null | undefined): Observable<number> {
         let url_ = this.baseUrl + "/api/Caff/UploadCaff";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = new FormData();
-        if (contentType !== null && contentType !== undefined)
-            content_.append("ContentType", contentType.toString());
-        if (contentDisposition !== null && contentDisposition !== undefined)
-            content_.append("ContentDisposition", contentDisposition.toString());
-        if (headers !== null && headers !== undefined)
-            content_.append("Headers", JSON.stringify(headers));
-        if (length === null || length === undefined)
-            throw new Error("The parameter 'length' cannot be null.");
-        else
-            content_.append("Length", length.toString());
-        if (name !== null && name !== undefined)
-            content_.append("Name", name.toString());
-        if (fileName !== null && fileName !== undefined)
-            content_.append("FileName", fileName.toString());
+        if (file !== null && file !== undefined)
+            content_.append("File", file.data, file.fileName ? file.fileName : "File");
+        if (tags !== null && tags !== undefined)
+            tags.forEach(item_ => content_.append("Tags", item_.toString()));
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -889,103 +870,6 @@ export interface ICommentDto {
     timeStamp: Date;
 }
 
-/** Represents HttpRequest and HttpResponse headers */
-export abstract class IHeaderDictionary implements IIHeaderDictionary {
-    item!: Item[];
-    /** Strongly typed access to the Content-Length header. Implementations must keep this in sync with the string representation. */
-    contentLength?: number | undefined;
-
-    constructor(data?: IIHeaderDictionary) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-        if (!data) {
-            this.item = [];
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            if (Array.isArray(_data["Item"])) {
-                this.item = [] as any;
-                for (let item of _data["Item"])
-                    this.item!.push(item);
-            }
-            this.contentLength = _data["ContentLength"];
-        }
-    }
-
-    static fromJS(data: any): IHeaderDictionary {
-        data = typeof data === 'object' ? data : {};
-        throw new Error("The abstract class 'IHeaderDictionary' cannot be instantiated.");
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.item)) {
-            data["Item"] = [];
-            for (let item of this.item)
-                data["Item"].push(item);
-        }
-        data["ContentLength"] = this.contentLength;
-        return data; 
-    }
-}
-
-/** Represents HttpRequest and HttpResponse headers */
-export interface IIHeaderDictionary {
-    item: Item[];
-    /** Strongly typed access to the Content-Length header. Implementations must keep this in sync with the string representation. */
-    contentLength?: number | undefined;
-}
-
-export class UploadCaffDto implements IUploadCaffDto {
-    tags?: string[] | undefined;
-
-    constructor(data?: IUploadCaffDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            if (Array.isArray(_data["tags"])) {
-                this.tags = [] as any;
-                for (let item of _data["tags"])
-                    this.tags!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): UploadCaffDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new UploadCaffDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.tags)) {
-            data["tags"] = [];
-            for (let item of this.tags)
-                data["tags"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IUploadCaffDto {
-    tags?: string[] | undefined;
-}
-
 export class RegisterDto implements IRegisterDto {
     userName?: string | undefined;
     passwordHash?: string | undefined;
@@ -1078,34 +962,9 @@ export interface ILoginDto {
     passwordHash?: string | undefined;
 }
 
-export class Item implements IItem {
-
-    constructor(data?: IItem) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-    }
-
-    static fromJS(data: any): Item {
-        data = typeof data === 'object' ? data : {};
-        let result = new Item();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        return data; 
-    }
-}
-
-export interface IItem {
+export interface FileParameter {
+    data: any;
+    fileName: string;
 }
 
 export interface FileResponse {
