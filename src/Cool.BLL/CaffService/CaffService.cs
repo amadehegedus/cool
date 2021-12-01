@@ -151,7 +151,7 @@ namespace Cool.Bll.CaffService
            // _dbContext.Tags.AddRange(tags);
 
             await _dbContext.SaveChangesAsync();
-            await GenerateImages(caff, dto.CaffString);
+            await GenerateImages(caff, Encoding.UTF8.GetBytes(dto.CaffString));
 
             _logger.LogDebug("Caff successfully uploaded by {username}", _requestContext.UserName);
 
@@ -278,11 +278,11 @@ namespace Cool.Bll.CaffService
             _logger.LogDebug("CommentId={id} successfully removed by {userName}", commentId, _requestContext.UserName);
         }
 
-        private async Task GenerateImages(Caff caff, string caffString)
+        private async Task GenerateImages(Caff caff, byte[] caffBytes)
         {
             await Task.Run(() =>
             {
-                File.WriteAllText(caff.FilePath, caffString);
+                File.WriteAllBytes(caff.FilePath, caffBytes);
                 ProcessStartInfo startInfo = new ProcessStartInfo(ParserPath);
                 startInfo.Arguments = caff.FilePath;
                 startInfo.CreateNoWindow = true;
