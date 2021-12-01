@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CaffDto, CaffService, FileParameter, ICaffDto } from './api/app.generated';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-root',
@@ -24,4 +25,11 @@ export class AppComponent {
         console.log(err);
       });
   }
+
+  download() {
+    this.caffService.downloadCaff(9).subscribe((fileData) => {
+      saveAs(fileData!.data, fileData!.fileName)
+    })
+  }
+
 }
