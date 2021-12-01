@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {faComment, faHashtag, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
-import {CaffDto, CaffService, CommentDto, TagDto} from "../../api/app.generated";
-import {UserManagementService} from "../../services/user-management.service";
-import {getDateString} from "../../utils/dateTimeUtil";
+import { Component, Input, OnInit } from '@angular/core';
+import { faComment, faHashtag, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { CaffDto, CaffService, CommentDto, TagDto } from "../../api/app.generated";
+import { UserManagementService } from "../../services/user-management.service";
+import { getDateString } from "../../utils/dateTimeUtil";
 
 @Component({
   selector: 'app-caff-holder',
@@ -29,8 +29,8 @@ export class CaffHolderComponent implements OnInit {
 
   }
 
-  loadData() :void {
-    if(this.ownCaffs) {
+  loadData(): void {
+    if (this.ownCaffs) {
       this.api.getOwnCaffs().subscribe(result => {
         this.caffs = result;
         this.isLoading = false;
@@ -55,18 +55,17 @@ export class CaffHolderComponent implements OnInit {
     if (this.filterOptions === '') {
       return this.caffs;
     }
-    const c = this.caffs.filter(c => {
+    return this.caffs.filter(c => {
       return c.tags?.some(ct => ct.text === this.filterOptions.toLowerCase() || ct.text?.startsWith(this.filterOptions.toLowerCase()))
         || c.creator === this.filterOptions.toLowerCase() || c.creator?.startsWith(this.filterOptions.toLowerCase());
     });
-    return c;
   }
 
   isAdmin() {
     return this.userManagement.isAdmin();
   }
 
-  isOwnComment(userName?: string) :boolean {
+  isOwnComment(userName?: string): boolean {
     if (userName) {
       return this.userManagement.getUsername() === userName;
     }
@@ -78,7 +77,7 @@ export class CaffHolderComponent implements OnInit {
   }
 
 
-  addComment(caffId: number) : void {
+  addComment(caffId: number): void {
     this.api.addComment(caffId, this.newComment).subscribe(r => {
       this.loadData();
       this.newComment = '';
@@ -109,13 +108,13 @@ export class CaffHolderComponent implements OnInit {
     });
   }
 
-  tagsCaffClicked(caffId: number) : void {
+  tagsCaffClicked(caffId: number): void {
     this.selectedForTagModifyCaffId = caffId;
     this.modifyTags = Object.create(this.caffs.find(c => c.id === this.selectedForTagModifyCaffId)?.tags!);
   }
 
-  getComments(): CommentDto[]  {
-    if(this.selectedForMessageModifyCaffId !== -1) {
+  getComments(): CommentDto[] {
+    if (this.selectedForMessageModifyCaffId !== -1) {
       return this.caffs.find(c => c.id === this.selectedForMessageModifyCaffId)?.comments!;
     }
     return [];
