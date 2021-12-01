@@ -1,14 +1,14 @@
 <div class="card" style="width: 18rem;">
-    <img [src]="imageSrc" class="img-fluid rounded-start">
+    <img [src]="imageSrc" alt="preview-bmp" class="img-fluid rounded-start">
     <div class="card-body">
-      <span class="fw-bold" *ngFor="let tag of caff.tags">#{{tag.text}} </span>
-      <p class="card-text d-flex justify-content-between">
-        <small class="text-muted">{{getDateString(caff.creationTime)}}</small>
-        <small class="text-muted">{{caff.creator}}</small>
-      </p>
+        <span class="fw-bold" *ngFor="let tag of caff.tags">#{{tag.text}} </span>
+        <p class="card-text d-flex justify-content-between">
+            <small class="text-muted">{{getDateString(caff.creationTime)}}</small>
+            <small class="text-muted">{{caff.creator}}</small>
+        </p>
     </div>
     <div class="card-body d-flex justify-content-center">
-      <button type="button" class="btn btn-outline-success me-1" (click)="downloadCaff()"><fa-icon [icon]="faSave"></fa-icon></button>
-      <ng-content></ng-content>
+        <button type="button" class="btn btn-outline-success me-1" (click)="downloadCaff()"><fa-icon [icon]="faSave"></fa-icon></button>
+        <ng-content></ng-content>
     </div>
-  </div>
+</div>
