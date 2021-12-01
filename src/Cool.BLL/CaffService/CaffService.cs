@@ -13,6 +13,7 @@ using Cool.Common.Exceptions;
 using Cool.Common.RequestContext;
 using Cool.Dal;
 using Cool.Dal.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +21,7 @@ namespace Cool.Bll.CaffService
 {
     public class CaffService : ICaffService
     {
-        private const string ParserPath= "../NativeParser/NativeParser.exe";
+        private const string ParserPath= "../NativeParser/build/Debug/NativeParser.exe";
         private const string CaffFilesPath = "../CaffFiles/";
 
         private readonly IRequestContext _requestContext;
@@ -126,7 +127,7 @@ namespace Cool.Bll.CaffService
             return filtered;
         }
 
-        public async Task<int> UploadCaff(UploadCaffDto dto)
+        public async Task<int> UploadCaff(IFormFile file, UploadCaffDto dto)
         {
             _logger.LogDebug("User {username} is uploading a caff", _requestContext.UserName);
             
@@ -151,7 +152,7 @@ namespace Cool.Bll.CaffService
            // _dbContext.Tags.AddRange(tags);
 
             await _dbContext.SaveChangesAsync();
-            await GenerateImages(caff, Encoding.UTF8.GetBytes(dto.CaffString));
+            await GenerateImages(caff, file);
 
             _logger.LogDebug("Caff successfully uploaded by {username}", _requestContext.UserName);
 
@@ -278,19 +279,28 @@ namespace Cool.Bll.CaffService
             _logger.LogDebug("CommentId={id} successfully removed by {userName}", commentId, _requestContext.UserName);
         }
 
-        private async Task GenerateImages(Caff caff, byte[] caffBytes)
+        private async Task GenerateImages(Caff caff, IFormFile file)
         {
             await Task.Run(() =>
             {
-                File.WriteAllBytes(caff.FilePath, caffBytes);
+                using (Stream fileStream = new FileStream(caff.FilePath, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
                 ProcessStartInfo startInfo = new ProcessStartInfo(ParserPath);
                 startInfo.Arguments = caff.FilePath;
                 startInfo.CreateNoWindow = true;
+                startInfo.RedirectStandardOutput = true;
                 Process process = new Process
                 {
                     StartInfo = startInfo
                 };
                 process.Start();
+                while (!process.StandardOutput.EndOfStream)
+                {
+                    string line = process.StandardOutput.ReadLine();
+                    _logger.LogDebug(line);
+                }
                 process.WaitForExit();
             });           
         }
