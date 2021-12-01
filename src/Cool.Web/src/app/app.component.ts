@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CaffDto, CaffService, ICaffDto, UploadCaffDto } from './api/app.generated';
+import { CaffDto, CaffService, FileParameter, ICaffDto } from './api/app.generated';
 
 @Component({
   selector: 'app-root',
@@ -14,27 +14,14 @@ export class AppComponent {
 
   }
 
-  public fileChange(event: any, item: any) {
-    item.binary = event;
-    var r = new FileReader();
-    var that = this;
-    r.onload = function (e) {
-      item.binary = r.result;
-      let ar: any = item.binary;
-      console.log(item.binary);
-      let dto: UploadCaffDto = new UploadCaffDto();
-      dto.caffString = ar;
-      dto.tags = [];
-      console.log(dto);
-      that.caffService.uploadCaff(dto).subscribe(
-        (result) => {
-          console.log(result);
-        },
-        (err) => {
-          console.log(err);
-        }
-      )
-    };
-    r.readAsBinaryString(event.target.files[0]);
+  selectFile(event: any) {
+    alert("select");
+    let f: FileParameter = { data: event.target.files[0], fileName: "barmi" };
+    this.caffService.uploadCaff(f, []).subscribe(res => {
+      console.log(res);
+    },
+      err => {
+        console.log(err);
+      });
   }
 }

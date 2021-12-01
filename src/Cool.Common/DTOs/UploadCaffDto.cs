@@ -10,6 +10,6 @@ namespace Cool.Common.DTOs
     {
         [FromForm]
         public IFormFile File { get; set; }
-        public List<string> Tags { get; set; }
+        public List<string> Tags { get; set; } = new List<string>();
     }
 }

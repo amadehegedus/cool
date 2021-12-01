@@ -1,6 +1,2 @@
-<ng-container *ngFor="let t of listFile">
-    <tr>
-        <input type="file" id="ImageBinary" (change)="fileChange($event, t)">
-    </tr>
-</ng-container>
 <router-outlet></router-outlet>
+<input type="file" (change)="selectFile($event)" placeholder="Upload file" accept=".caff">
