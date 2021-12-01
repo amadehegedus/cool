@@ -7,6 +7,8 @@
 void Ciff::ParseFromString(std::string ciffString)
 {
 	magic = ciffString.substr(0, 4);
+	if (magic != "CIFF")
+		throw "Wrong Ciff format, wrong magic!";
 	headerSize = *(uint64_t*)ciffString.substr(4, 8).c_str();
 	contentSize = *(uint64_t*)ciffString.substr(12, 8).c_str();
 	width = *(uint64_t*)ciffString.substr(20, 8).c_str();
