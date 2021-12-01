@@ -19,6 +19,7 @@ import { TokenInterceptorService } from './interceptors/token-interceptor.servic
 import { TagInputModule } from 'ngx-chips';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { CaffModalComponent } from './components/caff-modal/caff-modal.component';
+import { CaffHolderComponent } from './components/caff-holder/caff-holder.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CaffModalComponent } from './components/caff-modal/caff-modal.component
     UploaderComponent,
     CaffCardComponent,
     ProfileComponent,
-    CaffModalComponent
+    CaffModalComponent,
+    CaffHolderComponent
   ],
   imports: [
     BrowserModule,
