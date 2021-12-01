@@ -1,6 +1,8 @@
-export const getImage = () => {
-	return new Promise(resolve => {
-        resolve('../../../assets/caff_placeholder.jpg');
-    });
+const imgType = "data:image/png;base64,";
+
+export const getImage = (byteArray: string | undefined) => {
+  if(byteArray && byteArray !== '') {
+    return imgType + byteArray;
+  }
+  return '../../../assets/caff_placeholder.jpg';
 };
- 

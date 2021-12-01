@@ -14,8 +14,10 @@ import { UploaderComponent } from './components/uploader/uploader.component';
 import { CaffCardComponent } from './components/caff-card/caff-card.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { TokenInterceptorService } from './interceptors/token-interceptor.service';
+import { TagInputModule } from 'ngx-chips';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -30,10 +32,13 @@ import { TokenInterceptorService } from './interceptors/token-interceptor.servic
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     FontAwesomeModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    TagInputModule
   ],
   providers: [
     {

@@ -1,1 +1,25 @@
-<p>uploader works!</p>
+<app-menu></app-menu>
+<div class="container">
+  <h1 class="mb-5">Új caff létrehozása</h1>
+  <h4>Caff file feltöltése</h4>
+  <input class="form-control" type="file" id="formFile" (change)="fileChange($event)" accept=".caff">
+  <div class="mt-4">
+    <h4>Címkék hozzáadása</h4>
+    <tag-input [(ngModel)]="caff.tags"
+               [modelAsStrings]="true"
+               placeholder="+ Új címke"
+               [secondaryPlaceholder]="'Új címke hozzáadása'">
+    </tag-input>
+  </div>
+  <div class="d-flex flex-row-reverse">
+    <div>
+      <button type="button" class="btn btn-outline-primary btn-lg mt-3" (click)="uploadCaff()" [disabled]="this.caff.caffBytes === ''">Feltöltés</button>
+    </div>
+    <div *ngIf="getSuccessEnabled()"  class="alert alert-success mt-2 me-3" role="alert">
+      Sikeresen létrehozva!
+    </div>
+    <div *ngIf="getFailedEnabled()"  class="alert alert-danger mt-2 me-3" role="alert">
+      Sikertelen létrehozás!
+    </div>
+  </div>
+</div>

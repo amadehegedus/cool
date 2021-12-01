@@ -1,11 +1,93 @@
 <div class="card" style="width: 18rem;">
-    <img [src]="image" class="img-fluid rounded-start">
+    <img [src]="imageSrc" class="img-fluid rounded-start">
     <div class="card-body">
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <p class="card-text"><small class="text-muted">{{caff.creationTime}}</small></p>
+      <span class="fw-bold" *ngFor="let tag of caff.tags">#{{tag.text}} </span>
+      <p class="card-text d-flex justify-content-between">
+        <small class="text-muted">{{getDateString(caff.creationTime)}}</small>
+        <small class="text-muted">{{caff.creator}}</small>
+      </p>
     </div>
     <div class="card-body">
-        <ng-content user-control></ng-content>
-        <ng-content modify-control></ng-content>
+      <button type="button" class="btn btn-outline-primary" (click)="downloadCaff()">Letöltés</button>
+      <button type="button" class="btn btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#commentModal">Megjegyzések</button>
+      <button type="button" class="btn btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#deleteModal" *ngIf="isAdmin()">Törlés</button>
+      <button type="button" class="btn btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#tagModal" *ngIf="isAdmin()">Címkék</button>
     </div>
   </div>
+
+<!-- comment modal -->
+<div class="modal fade" id="commentModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Megjegyzések</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card mb-3" *ngFor="let comment of caff.comments">
+          <div class="card-header d-flex justify-content-between">
+            {{comment.userName}}
+            <button type="button" class="btn btn btn-sm btn-outline-danger" *ngIf="isAdmin()" (click)="deleteComment(comment.id)">X</button>
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{comment.message}}</p>
+            <footer class="blockquote-footer">{{getDateString(comment.timeStamp)}}</footer>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer text-start">
+        <div class="input-group">
+          <textarea class="form-control" [(ngModel)]="newComment"></textarea>
+        </div>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+        <button type="button" class="btn btn-primary" [disabled]="newComment !== ''" (click)="addComment()">Megjegyzés küldése</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Törlés</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Biztosan törli a CAFF-ot?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+        <button type="button" class="btn btn-danger" (click)="deleteCaff()">Törlés</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- tags modal -->
+<div class="modal fade" id="tagModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Címkék módosítása</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <tag-input [(ngModel)]="caff.tags"
+                   [modelAsStrings]="true"
+                   placeholder="+ Új címke"
+                   [secondaryPlaceholder]="'Új címke hozzáadása'"
+                   [identifyBy]="'id'"
+                   [displayBy]="'text'"
+                   (onRemove)="onRemoveTag($event)"
+                   (onAdd)="onAddTag($event)">
+        </tag-input>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+        <button type="button" class="btn btn-danger" (click)="deleteCaff()">Módosítás</button>
+      </div>
+    </div>
+  </div>
+</div>
