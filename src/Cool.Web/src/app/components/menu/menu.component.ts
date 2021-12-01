@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import {UserManagementService} from "../../services/user-management.service";
 
 @Component({
   selector: 'app-menu',
@@ -8,13 +9,21 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 })
 export class MenuComponent implements OnInit {
   faUser = faUser;
-  constructor() { }
+
+  @Input() activeLink: string = '';
+
+  constructor(private userManagement: UserManagementService) { }
 
   ngOnInit(): void {
   }
 
   logout(): void {
-    
+
+  }
+
+  getUsername(): string {
+    const userId: string = this.userManagement.getPayload().nameid;
+    return userId? userId : 'username';
   }
 
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {CaffDto, CaffService, CommentDto, TagDto} from 'src/app/api/app.generated';
 import { UserManagementService } from 'src/app/services/user-management.service';
+import { getDateString } from 'src/app/utils/dateTimeUtil';
+import {faComment, faHashtag, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-browser',
@@ -8,52 +10,32 @@ import { UserManagementService } from 'src/app/services/user-management.service'
   styleUrls: ['./browser.component.scss']
 })
 export class BrowserComponent implements OnInit {
-  caffs: CaffDto[];
-  filterOptions: string;
+  faComment = faComment;
+  faTrashAlt = faTrashAlt;
+  faHashTag = faHashtag;
+
+  caffs: CaffDto[] = [];
+  filterOptions: string = '';
+  newComment: string = '';
+  selectedForDeleteCaffId: number = -1;
+  selectedForTagModifyCaffId: number = -1;
+  selectedForMessageModifyCaffId: number = -1;
+  modifyTags: TagDto[] = [];
+  isLoading: boolean;
 
   constructor(private userManagement: UserManagementService, private api: CaffService) {
-    this.filterOptions = '';
-    this.caffs = [];
-    this.caffs = [
-      new CaffDto({
-        id: 3,
-        creationTime: new Date(),
-        creator: 'hello',
-        previewBitmap: 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
-        comments: [
-          new CommentDto({id: 0, message: 'HELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLOHELLO', timeStamp: new Date(), userName: 'pista'}),
-          new CommentDto({id: 0, message: 'HELLO1', timeStamp: new Date(), userName: 'pista1'}),
-          new CommentDto({id: 0, message: 'HELLO2', timeStamp: new Date(), userName: 'pist2a'}),
-          new CommentDto({id: 0, message: 'HELLO', timeStamp: new Date(), userName: 'pista'}),
-          new CommentDto({id: 0, message: 'HELLO1', timeStamp: new Date(), userName: 'pista1'}),
-          new CommentDto({id: 0, message: 'HELLO2', timeStamp: new Date(), userName: 'pist2a'}),
-          new CommentDto({id: 0, message: 'HELLO', timeStamp: new Date(), userName: 'pista'}),
-          new CommentDto({id: 0, message: 'HELLO1', timeStamp: new Date(), userName: 'pista1'}),
-          new CommentDto({id: 0, message: 'HELLO2', timeStamp: new Date(), userName: 'pist2a'}),
-          new CommentDto({id: 0, message: 'HELLO', timeStamp: new Date(), userName: 'pista'}),
-          new CommentDto({id: 0, message: 'HELLO1', timeStamp: new Date(), userName: 'pista1'}),
-          new CommentDto({id: 0, message: 'HELLO2', timeStamp: new Date(), userName: 'pist2a'}),
-        ],
-        tags: [
-          new TagDto({id: 0, text: 'asd'}),
-          new TagDto({id: 0, text: 'fsaf'}),
-          new TagDto({id: 0, text: 'vsav'}),
-          new TagDto({id: 0, text: 'asd'}),
-          new TagDto({id: 0, text: 'fsaf'}),
-          new TagDto({id: 0, text: 'vsav'}),
-          new TagDto({id: 0, text: 'asd'}),
-          new TagDto({id: 0, text: 'fsaf'}),
-          new TagDto({id: 0, text: 'vsav'}),
-          new TagDto({id: 0, text: 'asd'}),
-          new TagDto({id: 0, text: 'fsaf'}),
-          new TagDto({id: 0, text: 'vsav'}),
-        ]
-      })
-    ];
-    //this.api.downloadCaff(3).subscribe(result => console.log(result));
-    //this.api.getAllCaffs().subscribe(result => console.log(result));
+    this.isLoading = true;
+    this.loadData();
   }
 
+  loadData() :void {
+    this.api.getAllCaffs().subscribe(result => {
+      this.caffs = result;
+      this.isLoading = false;
+    }, err => {
+      this.isLoading = false;
+    });
+  }
   ngOnInit(): void {  }
 
   filterCaffs(): CaffDto[] {
@@ -61,7 +43,60 @@ export class BrowserComponent implements OnInit {
       return this.caffs;
     }
     return this.caffs.filter(c => {
-      return c.tags?.filter(ct => ct.text === this.filterOptions || ct.text?.startsWith(this.filterOptions)).length !== 0;
+      return c.tags?.filter(ct => ct.text === this.filterOptions.toLowerCase() || ct.text?.startsWith(this.filterOptions.toLowerCase())).length !== 0
+        || c.creator === this.filterOptions.toLowerCase() || c.creator?.startsWith(this.filterOptions.toLowerCase());
     });
+  }
+
+  isAdmin() {
+    return this.userManagement.isAdmin();
+  }
+
+  getDateString(timeStamp: Date) {
+    return getDateString(timeStamp);
+  }
+
+
+  addComment(caffId: number) : void {
+    this.api.addComment(caffId, this.newComment).subscribe(r => {
+      this.loadData();
+      this.newComment = '';
+    });
+  }
+
+  deleteComment(commentId: number): void {
+    this.api.removeComment(commentId).subscribe(r => {
+      this.loadData();
+    });
+  }
+
+  deleteCaff(caffId: number): void {
+    this.api.deleteCaff(caffId).subscribe(r => {
+      this.loadData();
+    });
+  }
+
+  onAddTag(ev: any, caffId: number) {
+    this.api.addTag(caffId, ev.text.toLowerCase()).subscribe(r => {
+      this.loadData();
+    });
+  }
+
+  onRemoveTag(ev: any) {
+    this.api.removeTag(ev.id).subscribe(r => {
+      this.loadData();
+    });
+  }
+
+  tagsCaffClicked(caffId: number) : void {
+    this.selectedForTagModifyCaffId = caffId;
+    this.modifyTags = Object.create(this.caffs.find(c => c.id === this.selectedForTagModifyCaffId)?.tags!);
+  }
+
+  getComments(): CommentDto[]  {
+    if(this.selectedForMessageModifyCaffId !== -1) {
+      return this.caffs.find(c => c.id === this.selectedForMessageModifyCaffId)?.comments!;
+    }
+    return [];
   }
 }

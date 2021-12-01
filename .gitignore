@@ -293,3 +293,10 @@ _deps
 # External projects
 *-prefix/
 src/Cool.Web/package-lock.json
+
+### Generated Caff files ###
+src/CaffFiles/*
+
+### Node generated file ###
+src/Cool.Web/package-lock.json
+src/Cool.Web/package-lock.json

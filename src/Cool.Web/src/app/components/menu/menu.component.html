@@ -7,19 +7,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" [routerLink]="['/browser']">Böngészés</a>
+                    <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['/browser']">Böngészés</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/upload']">Feltöltés</a>
+                    <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['/upload']">Feltöltés</a>
                 </li>
             </ul>
             <div class="nav-item dropdown">
                 <span class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <fa-icon [icon]="faUser"></fa-icon>
-                    username
+                    {{getUsername()}}
                 </span>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" [routerLink]="['/profile']">Saját fájlok</a></li>
+                    <li><a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="['/profile']">Saját fájlok</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>

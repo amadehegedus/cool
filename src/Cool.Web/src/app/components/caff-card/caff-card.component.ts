@@ -3,7 +3,7 @@ import { CaffDto, CaffService } from 'src/app/api/app.generated';
 import { getImage } from '../../utils/imageUtil';
 import {getDateString} from "../../utils/dateTimeUtil";
 import { saveAs } from 'file-saver';
-import {UserManagementService} from "../../services/user-management.service";
+import {faSave} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-caff-card',
@@ -14,49 +14,23 @@ export class CaffCardComponent implements OnInit {
 
   @Input() caff: CaffDto = new CaffDto();
   imageSrc: string = '';
-  newComment: string = '';
+  faSave = faSave;
 
-  constructor(private api: CaffService, private userManagement: UserManagementService ) {}
+
+  constructor(private api: CaffService) {}
 
   ngOnInit(): void {
     this.imageSrc = getImage(this.caff.previewBitmap);
   }
 
   downloadCaff(): void {
-    this.api.downloadCaff(this.caff.id).subscribe(fileData => {
+    this.api.downloadCaff(this.caff.id).subscribe((fileData) => {
       saveAs(fileData!.data, fileData!.fileName)
-    });
-  }
-
-  isAdmin() {
-    return this.userManagement.getPayload().role === 'User';
+    })
   }
 
   getDateString(timeStamp: Date) {
     return getDateString(timeStamp);
   }
 
-  addComment() : void {
-    this.api.addComment(this.caff.id, this.newComment).subscribe(r => {});
-  }
-
-  deleteComment(commentId: number): void {
-    this.api.removeComment(commentId).subscribe(r => {});
-  }
-
-  deleteCaff(): void {
-    this.api.deleteCaff(this.caff.id).subscribe(r => {
-
-      }, error => {
-
-    });
-  }
-
-  public onAddTag(ev: any) {
-    console.log('tag added: value is ' + ev);
-  }
-
-  public onRemoveTag(ev: any) {
-    console.log('tag removed: value is ' + ev);
-  }
 }

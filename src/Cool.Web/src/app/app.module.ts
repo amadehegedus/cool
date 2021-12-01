@@ -18,6 +18,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { TokenInterceptorService } from './interceptors/token-interceptor.service';
 import { TagInputModule } from 'ngx-chips';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { CaffModalComponent } from './components/caff-modal/caff-modal.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     BrowserComponent,
     UploaderComponent,
     CaffCardComponent,
-    ProfileComponent
+    ProfileComponent,
+    CaffModalComponent
   ],
   imports: [
     BrowserModule,

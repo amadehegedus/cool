@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {CaffService} from 'src/app/api/app.generated';
+import {CaffService, FileParameter} from 'src/app/api/app.generated';
 
 @Component({
   selector: 'app-uploader',
@@ -8,28 +8,31 @@ import {CaffService} from 'src/app/api/app.generated';
 })
 export class UploaderComponent implements OnInit {
 
-  //caff: IUploadCaffDto = { tags: [], caffBytes: ''};
+  tags: string[] = [];
+  file: FileParameter = { data: '', fileName: '' };
   static showSuccessMessage: boolean = false;
   static showFailedMessage: boolean = false;
+  isLoading: boolean = false;
 
   constructor(private api: CaffService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   uploadCaff(): void {
-    /*this.api.uploadCaff(new UploadCaffDto(this.caff)).subscribe(r => {
-      UploaderComponent.showSuccessMessage = true;
-      setTimeout(() => { UploaderComponent.showSuccessMessage = false;  } , 3000);
-      this.caff = { tags: [], caffBytes: '' };
-    }, e => {
-      UploaderComponent.showFailedMessage = true;
-      setTimeout(() => { UploaderComponent.showFailedMessage = false;  } , 3000);
-    });*/
-  }
-
-  fileChange(event: any) {
-    //this.caff.caffBytes = 'asd';
+    this.isLoading = true;
+    this.tags = this.tags.map(t => t.toLowerCase());
+    this.api.uploadCaff(this.file, this.tags).subscribe(res => {
+        UploaderComponent.showSuccessMessage = true;
+        this.tags = [];
+        this.file = { data: '', fileName: '' };
+        this.isLoading = false;
+        setTimeout(() => { UploaderComponent.showSuccessMessage = false;  } , 3000);
+      },
+      err => {
+        this.isLoading = false;
+        UploaderComponent.showFailedMessage = true;
+        setTimeout(() => { UploaderComponent.showFailedMessage = false;  } , 3000);
+      });
   }
 
   getSuccessEnabled() {
@@ -38,5 +41,9 @@ export class UploaderComponent implements OnInit {
 
   getFailedEnabled() {
     return UploaderComponent.showFailedMessage;
+  }
+
+  selectFile(event: any) {
+    this.file = { data: event.target.files[0], fileName: 'new_caff' };
   }
 }

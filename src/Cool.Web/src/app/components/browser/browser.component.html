@@ -1,13 +1,75 @@
 <app-menu></app-menu>
 <div class="container">
     <div class="input-group mb-4 mt-4">
-        <input type="text" class="form-control" placeholder="Keresés" [(ngModel)]="filterOptions">
+        <input type="text" class="form-control" placeholder="Keresés címke vagy feltöltő alapján" [(ngModel)]="filterOptions">
     </div>
-    <div class="d-flex justify-content-start flex-wrap px-4">
-        <app-caff-card class="mb-3 me-3" *ngFor="let caff of filterCaffs()" [caff]="caff">
+    <div class="d-flex flex-column align-items-center justify-content-center" *ngIf="isLoading" style="height: 70vh;">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
 
+    <div class="d-flex justify-content-center flex-wrap" *ngIf="!isLoading">
+        <app-caff-card class="mb-3 me-3" *ngFor="let caff of filterCaffs()" [caff]="caff">
+          <button type="button" class="btn btn btn-outline-secondary me-1" data-bs-toggle="modal" data-bs-target="#commentModal" (click)="this.selectedForMessageModifyCaffId = caff.id">
+            <fa-icon [icon]="faComment"></fa-icon>
+          </button>
+          <button type="button" class="btn btn btn-outline-secondary me-1" data-bs-toggle="modal" data-bs-target="#tagModal" (click)="tagsCaffClicked(caff.id)" *ngIf="isAdmin()">
+            <fa-icon [icon]="faHashTag"></fa-icon>
+          </button>
+          <button type="button" class="btn btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="this.selectedForDeleteCaffId = caff.id;" *ngIf="isAdmin()">
+            <fa-icon [icon]="faTrashAlt"></fa-icon>
+          </button>
         </app-caff-card>
     </div>
 </div>
+
+<!-- COMMENT MODAL -->
+<app-caff-modal modalId="commentModal" title="Megjegyzések">
+  <ng-container modal-body>
+    <div class="card mb-3" *ngFor="let comment of getComments()">
+      <div class="card-header d-flex justify-content-between">
+        {{comment.userName}}
+        <button type="button" class="btn btn btn-sm btn-outline-danger" *ngIf="isAdmin()" (click)="deleteComment(comment.id)">X</button>
+      </div>
+      <div class="card-body">
+        <p class="card-text">{{comment.message}}</p>
+        <footer class="blockquote-footer">{{getDateString(comment.timeStamp)}}</footer>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container modal-footer>
+    <div class="input-group">
+      <textarea class="form-control" [(ngModel)]="newComment"></textarea>
+    </div>
+    <button type="button" class="btn btn-primary" [disabled]="newComment === ''" (click)="addComment(selectedForMessageModifyCaffId)">Megjegyzés küldése</button>
+  </ng-container>
+</app-caff-modal>
+
+<!-- DELETE MODAL -->
+<app-caff-modal modalId="deleteModal" title="Törlés">
+  <ng-container modal-body>Biztosan törli a CAFF-ot?</ng-container>
+  <ng-container modal-footer>
+    <button type="button" class="btn btn-danger" (click)="deleteCaff(selectedForDeleteCaffId)">Törlés</button>
+  </ng-container>
+</app-caff-modal>
+
+<!-- TAG MODAL -->
+<app-caff-modal title="Címkék módosítása" modalId="tagModal">
+  <ng-container modal-body>
+    <tag-input [(ngModel)]="modifyTags"
+               [modelAsStrings]="true"
+               placeholder="+ Új címke"
+               [secondaryPlaceholder]="'Új címke hozzáadása'"
+               [identifyBy]="'id'"
+               [displayBy]="'text'"
+               (onRemove)="onRemoveTag($event)"
+               (onAdd)="onAddTag($event, selectedForTagModifyCaffId)">
+    </tag-input>
+  </ng-container>
+  <ng-container modal-footer>
+    <button type="button" class="btn btn-success">Kész</button>
+  </ng-container>
+</app-caff-modal>
 
 

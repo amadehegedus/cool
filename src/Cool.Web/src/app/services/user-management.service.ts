@@ -14,4 +14,8 @@ export class UserManagementService {
       return null;
     return jwt_decode(token);
   }
+
+  public isAdmin(): boolean {
+    return this.getPayload().role === 'User';
+  }
 }
