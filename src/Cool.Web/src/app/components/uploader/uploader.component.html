@@ -1,28 +1,23 @@
 <app-menu></app-menu>
 <div class="container">
-  <h1 class="mb-5">Új caff létrehozása</h1>
-  <h4>Caff file feltöltése</h4>
-  <input class="form-control" [disabled]="isLoading" type="file" (change)="selectFile($event)" placeholder="Fájl feltöltése" accept=".caff">
-  <div class="mt-4">
-    <h4>Címkék hozzáadása</h4>
-    <tag-input [(ngModel)]="tags"
-               [modelAsStrings]="true"
-               placeholder="+ Új címke"
-               [disabled]="isLoading"
-               [secondaryPlaceholder]="'Új címke hozzáadása'">
-    </tag-input>
-  </div>
-  <div class="d-flex flex-row-reverse">
-    <div>
-      <button type="button" class="btn btn-outline-primary btn-lg mt-3" (click)="uploadCaff()" [disabled]="this.file.data === '' || isLoading" >
+    <h1 class="mb-4 mt-4">Új CAFF feltöltése</h1>
+    <input class="form-control" [disabled]="isLoading" type="file" (change)="selectFile($event)" placeholder="Fájl feltöltése" accept=".caff">
+    <div class="mt-4">
+        <h4>Címkék hozzáadása</h4>
+        <tag-input [(ngModel)]="tags" [modelAsStrings]="true" placeholder="+ Új címke" [disabled]="isLoading" [secondaryPlaceholder]="'Új címke hozzáadása'">
+        </tag-input>
+    </div>
+    <div class="d-flex flex-row-reverse">
+        <div>
+            <button type="button" class="btn btn-outline-primary btn-lg mt-3" (click)="uploadCaff()" [disabled]="this.file.data === '' || isLoading">
         <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Feltöltés
       </button>
+        </div>
+        <div *ngIf="getSuccessEnabled()" class="alert alert-success mt-2 me-3" role="alert">
+            Sikeres feltöltés!
+        </div>
+        <div *ngIf="getFailedEnabled()" class="alert alert-danger mt-2 me-3" role="alert">
+            Sikertelen feltöltés!
+        </div>
     </div>
-    <div *ngIf="getSuccessEnabled()"  class="alert alert-success mt-2 me-3" role="alert">
-      Sikeresen létrehozva!
-    </div>
-    <div *ngIf="getFailedEnabled()"  class="alert alert-danger mt-2 me-3" role="alert">
-      Sikertelen létrehozás!
-    </div>
-  </div>
 </div>

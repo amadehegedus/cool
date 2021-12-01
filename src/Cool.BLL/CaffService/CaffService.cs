@@ -152,8 +152,8 @@ namespace Cool.Bll.CaffService
             _dbContext.Caffs.Add(caff);
            // _dbContext.Tags.AddRange(tags);
 
-            await _dbContext.SaveChangesAsync();
             await GenerateImages(caff, dto.File);
+            await _dbContext.SaveChangesAsync();
 
             _logger.LogDebug("Caff successfully uploaded by {username}", _requestContext.UserName);
 

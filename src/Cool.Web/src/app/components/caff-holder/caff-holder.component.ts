@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { faComment, faHashtag, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faComment, faHashtag, faSearch, faTrashAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 import { CaffDto, CaffService, CommentDto, TagDto } from "../../api/app.generated";
 import { UserManagementService } from "../../services/user-management.service";
 import { getDateString } from "../../utils/dateTimeUtil";
@@ -13,6 +13,8 @@ export class CaffHolderComponent implements OnInit {
   faComment = faComment;
   faTrashAlt = faTrashAlt;
   faHashTag = faHashtag;
+  faSearch = faSearch;
+  faUser = faUser;
 
   caffs: CaffDto[] = [];
   filterOptions: string = '';

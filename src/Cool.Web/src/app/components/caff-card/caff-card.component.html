@@ -1,14 +1,19 @@
-<div class="card" style="width: 18rem;">
-    <img [src]="imageSrc" alt="preview-bmp" class="img-fluid rounded-start">
+<div class="card shadow zoom">
+    <img [src]="imageSrc" alt="preview-bmp" class="img-fluid">
     <div class="card-body">
-        <span class="fw-bold" *ngFor="let tag of caff.tags">#{{tag.text}} </span>
-        <p class="card-text d-flex justify-content-between">
-            <small class="text-muted">{{getDateString(caff.creationTime)}}</small>
-            <small class="text-muted">{{caff.creator}}</small>
-        </p>
-    </div>
-    <div class="card-body d-flex justify-content-center">
-        <button type="button" class="btn btn-outline-success me-1" (click)="downloadCaff()"><fa-icon [icon]="faSave"></fa-icon></button>
-        <ng-content></ng-content>
+        <div>
+            <div *ngFor="let tag of caff.tags" style="white-space: nowrap; margin: 2px;" class="d-inline bg-dark rounded text-light"><span style="margin: 4px;">#{{tag.text}}</span></div>
+        </div>
+        <hr>
+        <small class="text-dark"><strong><fa-icon [icon]="faUser"></fa-icon> Feltöltő: {{caff.creator}}</strong></small>
+        <br>
+        <small class="text-muted">{{getDateString(caff.creationTime)}}</small>
+        <hr>
+        <div class="d-flex justify-content-start mt-2">
+            <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-success operation-button" (click)="downloadCaff()"><fa-icon [icon]="faSave"></fa-icon></button>
+                <ng-content></ng-content>
+            </div>
+        </div>
     </div>
 </div>

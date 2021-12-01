@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CaffDto, CaffService } from 'src/app/api/app.generated';
 import { getImage } from '../../utils/imageUtil';
-import {getDateString} from "../../utils/dateTimeUtil";
+import { getDateString } from "../../utils/dateTimeUtil";
 import { saveAs } from 'file-saver';
-import {faSave} from "@fortawesome/free-solid-svg-icons";
+import { faFileDownload, faSave, faUser } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-caff-card',
@@ -14,10 +14,11 @@ export class CaffCardComponent implements OnInit {
 
   @Input() caff: CaffDto = new CaffDto();
   imageSrc: string = '';
-  faSave = faSave;
+  faSave = faFileDownload;
+  faUser = faUser;
 
 
-  constructor(private api: CaffService) {}
+  constructor(private api: CaffService) { }
 
   ngOnInit(): void {
     this.imageSrc = getImage(this.caff.previewBitmap);
