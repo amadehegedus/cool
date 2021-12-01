@@ -130,6 +130,7 @@ namespace Cool.Bll.CaffService
         public async Task<int> UploadCaff(UploadCaffDto dto)
         {
             _logger.LogDebug("User {username} is uploading a caff", _requestContext.UserName);
+            Directory.CreateDirectory("../CaffFiles");
             
             Caff caff = new Caff
             {
