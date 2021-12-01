@@ -5,7 +5,7 @@ import { UserManagementService } from "../../services/user-management.service";
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  styleUrls: []
 })
 export class MenuComponent {
   faUser = faUser;

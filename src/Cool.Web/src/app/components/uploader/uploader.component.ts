@@ -4,7 +4,7 @@ import { CaffService, FileParameter } from 'src/app/api/app.generated';
 @Component({
   selector: 'app-uploader',
   templateUrl: './uploader.component.html',
-  styleUrls: ['./uploader.component.scss']
+  styleUrls: []
 })
 export class UploaderComponent {
 

@@ -7,7 +7,7 @@ import { getDateString } from "../../utils/dateTimeUtil";
 @Component({
   selector: 'app-caff-holder',
   templateUrl: './caff-holder.component.html',
-  styleUrls: ['./caff-holder.component.scss']
+  styleUrls: []
 })
 export class CaffHolderComponent implements OnInit {
   faComment = faComment;
