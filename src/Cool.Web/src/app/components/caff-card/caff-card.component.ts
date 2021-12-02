@@ -3,7 +3,7 @@ import { CaffDto, CaffService } from 'src/app/api/app.generated';
 import { getImage } from '../../utils/imageUtil';
 import { getDateString } from "../../utils/dateTimeUtil";
 import { saveAs } from 'file-saver';
-import { faFileDownload, faSave, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faFileDownload, faUser } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-caff-card',
