@@ -42,6 +42,10 @@ namespace Cool.Api.ExceptionHandling
             }
         }
 
-        public void OnActionExecuting(ActionExecutingContext context) { }
+        public void OnActionExecuting(ActionExecutingContext context)
+        {
+            // This is empty, because it's in the interface, but unused here
+            // Thanks SonarQube
+        }
     }
 }

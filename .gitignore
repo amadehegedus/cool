@@ -302,3 +302,5 @@ src/CaffFiles/*
 ### Node generated file ###
 src/Cool.Web/package-lock.json
 src/Cool.Web/package-lock.json
+
+src/Cool.API/.sonarqube
