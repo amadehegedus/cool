@@ -202,6 +202,8 @@ ClientBin/
 *.pfx
 *.publishsettings
 node_modules/
+.scannerwork/
+.angular/
 orleans.codegen.cs
 
 # Since there are multiple workflows, uncomment next line to ignore bower_components
@@ -292,3 +294,13 @@ _deps
 ### CMake Patch ###
 # External projects
 *-prefix/
+src/Cool.Web/package-lock.json
+
+### Generated Caff files ###
+src/CaffFiles/*
+
+### Node generated file ###
+src/Cool.Web/package-lock.json
+src/Cool.Web/package-lock.json
+
+src/Cool.API/.sonarqube

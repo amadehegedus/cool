@@ -82,6 +82,61 @@ export class CaffService {
         return _observableOf<CaffDto[]>(<any>null);
     }
 
+    getOwnCaffs(): Observable<CaffDto[]> {
+        let url_ = this.baseUrl + "/api/Caff/GetOwnCaffs";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOwnCaffs(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOwnCaffs(<any>response_);
+                } catch (e) {
+                    return <Observable<CaffDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CaffDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOwnCaffs(response: HttpResponseBase): Observable<CaffDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CaffDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CaffDto[]>(<any>null);
+    }
+
     getCaffsByTags(tags: string[]): Observable<CaffDto[]> {
         let url_ = this.baseUrl + "/api/Caff/GetCaffsByTags";
         url_ = url_.replace(/[?&]$/, "");
@@ -141,18 +196,22 @@ export class CaffService {
         return _observableOf<CaffDto[]>(<any>null);
     }
 
-    uploadCaff(dto: UploadCaffDto): Observable<void> {
+    uploadCaff(file: FileParameter | null | undefined, tags: string[] | null | undefined): Observable<number> {
         let url_ = this.baseUrl + "/api/Caff/UploadCaff";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(dto);
+        const content_ = new FormData();
+        if (file !== null && file !== undefined)
+            content_.append("File", file.data, file.fileName ? file.fileName : "File");
+        if (tags !== null && tags !== undefined)
+            tags.forEach(item_ => content_.append("Tags", item_.toString()));
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Accept": "application/json"
             })
         };
 
@@ -163,63 +222,14 @@ export class CaffService {
                 try {
                     return this.processUploadCaff(<any>response_);
                 } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
+                    return <Observable<number>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<void>><any>_observableThrow(response_);
+                return <Observable<number>><any>_observableThrow(response_);
         }));
     }
 
-    protected processUploadCaff(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    downloadCaff(caffId: number | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/Caff/DownloadCaff?";
-        if (caffId === null)
-            throw new Error("The parameter 'caffId' cannot be null.");
-        else if (caffId !== undefined)
-            url_ += "caffId=" + encodeURIComponent("" + caffId) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDownloadCaff(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDownloadCaff(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDownloadCaff(response: HttpResponseBase): Observable<string> {
+    protected processUploadCaff(response: HttpResponseBase): Observable<number> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -238,7 +248,57 @@ export class CaffService {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
+        return _observableOf<number>(<any>null);
+    }
+
+    downloadCaff(caffId: number | undefined): Observable<FileResponse | null> {
+        let url_ = this.baseUrl + "/api/Caff/DownloadCaff?";
+        if (caffId === null)
+            throw new Error("The parameter 'caffId' cannot be null.");
+        else if (caffId !== undefined)
+            url_ += "caffId=" + encodeURIComponent("" + caffId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDownloadCaff(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDownloadCaff(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse | null>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse | null>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDownloadCaff(response: HttpResponseBase): Observable<FileResponse | null> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse | null>(<any>null);
     }
 
     deleteCaff(caffId: number | undefined): Observable<void> {
@@ -810,54 +870,6 @@ export interface ICommentDto {
     timeStamp: Date;
 }
 
-export class UploadCaffDto implements IUploadCaffDto {
-    tags?: string[] | undefined;
-    caffBytes?: string | undefined;
-
-    constructor(data?: IUploadCaffDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            if (Array.isArray(_data["tags"])) {
-                this.tags = [] as any;
-                for (let item of _data["tags"])
-                    this.tags!.push(item);
-            }
-            this.caffBytes = _data["caffBytes"];
-        }
-    }
-
-    static fromJS(data: any): UploadCaffDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new UploadCaffDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.tags)) {
-            data["tags"] = [];
-            for (let item of this.tags)
-                data["tags"].push(item);
-        }
-        data["caffBytes"] = this.caffBytes;
-        return data; 
-    }
-}
-
-export interface IUploadCaffDto {
-    tags?: string[] | undefined;
-    caffBytes?: string | undefined;
-}
-
 export class RegisterDto implements IRegisterDto {
     userName?: string | undefined;
     passwordHash?: string | undefined;
@@ -948,6 +960,18 @@ export class LoginDto implements ILoginDto {
 export interface ILoginDto {
     userName?: string | undefined;
     passwordHash?: string | undefined;
+}
+
+export interface FileParameter {
+    data: any;
+    fileName: string;
+}
+
+export interface FileResponse {
+    data: Blob;
+    status: number;
+    fileName?: string;
+    headers?: { [name: string]: any };
 }
 
 export class ApiException extends Error {

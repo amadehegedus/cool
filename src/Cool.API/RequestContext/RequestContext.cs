@@ -14,16 +14,14 @@ namespace Cool.Api.RequestContext
         public string Email { get; set; }
         public Role Role { get; set; }
 
-        private readonly HttpContext _httpContext;
-
         public RequestContext(IHttpContextAccessor httpContext)
         {
-            _httpContext = httpContext.HttpContext;
+            var context = httpContext.HttpContext;
 
-            UserName = _httpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            Name = _httpContext.User.Claims.First(c => c.Type == ClaimTypes.Name).Value;
-            Email = _httpContext.User.Claims.First(c => c.Type == ClaimTypes.Email).Value;
-            Role = Enum.Parse<Role>(_httpContext.User.Claims.First(c => c.Type == ClaimTypes.Role).Value);
+            UserName = context.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            Name = context.User.Claims.First(c => c.Type == ClaimTypes.Name).Value;
+            Email = context.User.Claims.First(c => c.Type == ClaimTypes.Email).Value;
+            Role = Enum.Parse<Role>(context.User.Claims.First(c => c.Type == ClaimTypes.Role).Value);
         }
     }
 }

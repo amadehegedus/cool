@@ -1,0 +1,19 @@
+<div class="card shadow zoom">
+    <img [src]="imageSrc" alt="preview-bmp" class="img-fluid">
+    <div class="card-body">
+        <div>
+            <div *ngFor="let tag of caff.tags" style="white-space: nowrap; margin: 2px;" class="d-inline bg-dark rounded text-light"><span style="margin: 4px;">#{{tag.text}}</span></div>
+        </div>
+        <hr>
+        <small class="text-dark"><strong><fa-icon [icon]="faUser"></fa-icon> Feltöltő: {{caff.creator}}</strong></small>
+        <br>
+        <small class="text-muted">{{getDateString(caff.creationTime)}}</small>
+        <hr>
+        <div class="d-flex justify-content-start mt-2">
+            <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-success operation-button" (click)="downloadCaff()"><fa-icon [icon]="faSave"></fa-icon></button>
+                <ng-content></ng-content>
+            </div>
+        </div>
+    </div>
+</div>

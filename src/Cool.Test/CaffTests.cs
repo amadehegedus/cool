@@ -1,4 +1,5 @@
 using System.Linq;
+using AutoMapper;
 using Cool.Bll.CaffService;
 using Cool.Common.Exceptions;
 using Cool.Common.RequestContext;
@@ -17,12 +18,14 @@ namespace Cool.Test
         private CoolDbContext _dbContext;
         private ICaffService _caffService;
         private ILogger<CaffService> _logger;
+        private IMapper _mapper;
 
         [TestInitialize]
         public void Setup()
         {
             _dbContext = TestDb.GetContext();
             _logger = Mock.Of<ILogger<CaffService>>();
+            _mapper = Mock.Of<IMapper>();
         }
 
         [TestCleanup]
@@ -33,7 +36,7 @@ namespace Cool.Test
 
         private void CreateCaffServiceForUser(IRequestContext requestContext)
         {
-            _caffService = new CaffService(requestContext, _dbContext, _logger);
+            _caffService = new CaffService(requestContext, _dbContext, _logger, _mapper);
         }
 
         [TestMethod]

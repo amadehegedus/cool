@@ -2,7 +2,7 @@
 
 namespace Cool.Dal.Configurations
 {
-    public class EntityConfigurations
+    public static class EntityConfigurations
     {
         public static void ConfigureAllEntities(ModelBuilder modelBuilder)
         {
