@@ -9,8 +9,4 @@ describe('RoleGuardService', () => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(RoleGuardService);
   });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
 });
