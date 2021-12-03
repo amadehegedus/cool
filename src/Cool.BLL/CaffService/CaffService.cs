@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Cool.Common.DTOs;
@@ -13,6 +13,7 @@ using Cool.Common.Exceptions;
 using Cool.Common.RequestContext;
 using Cool.Dal;
 using Cool.Dal.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -40,7 +41,7 @@ namespace Cool.Bll.CaffService
         {
             _logger.LogDebug("User {username} is querying every caff", _requestContext.UserName);
 
-            var caffs = await _dbContext.Caffs.ToListAsync();
+            var caffs = await _dbContext.Caffs.OrderByDescending(c => c.CreationTime).ToListAsync();
             List<CaffDto> caffDtos = _mapper.Map<List<CaffDto>>(caffs);
             var tags = await _dbContext.Tags.ToListAsync();
             var comments = await _dbContext.Comments.ToListAsync();      
@@ -129,6 +130,7 @@ namespace Cool.Bll.CaffService
         public async Task<int> UploadCaff(UploadCaffDto dto)
         {
             _logger.LogDebug("User {username} is uploading a caff", _requestContext.UserName);
+            Directory.CreateDirectory("../CaffFiles");
             
             Caff caff = new Caff
             {
@@ -138,27 +140,22 @@ namespace Cool.Bll.CaffService
             };
             
 
-            //List<Tag> tags = new List<Tag>();
             foreach(string tag in dto.Tags)
             {
-                //Tag tag1 = new Tag {Text = tag};
-                //tags.Add(tag1);
                 caff.Tags.Add(new Tag { Text = tag });
             }
-            //caff.Tags.
 
             _dbContext.Caffs.Add(caff);
-           // _dbContext.Tags.AddRange(tags);
 
+            await GenerateImages(caff, dto.File);
             await _dbContext.SaveChangesAsync();
-            await GenerateImages(caff, dto.CaffBytes);
 
             _logger.LogDebug("Caff successfully uploaded by {username}", _requestContext.UserName);
 
             return caff.Id;
         }
 
-        public async Task<byte[]> DownloadCaff(int caffId)
+        public async Task<(byte[], string)> DownloadCaff(int caffId)
         {
             _logger.LogDebug("User {username} is downloading caffId={caffid}", _requestContext.UserName, caffId);
 
@@ -172,7 +169,7 @@ namespace Cool.Bll.CaffService
 
             _logger.LogDebug("User {username} downloaded caffId={caffid}", _requestContext.UserName, caffId);
 
-            return File.ReadAllBytes(caff.FilePath);           
+            return (File.ReadAllBytes(caff.FilePath), caff.FilePath.Split('\\')[^1]);           
         }
 
         public async Task DeleteCaff(int caffId)
@@ -278,19 +275,28 @@ namespace Cool.Bll.CaffService
             _logger.LogDebug("CommentId={id} successfully removed by {userName}", commentId, _requestContext.UserName);
         }
 
-        private async Task GenerateImages(Caff caff, byte[] CaffBytes)
+        private async Task GenerateImages(Caff caff, IFormFile file)
         {
             await Task.Run(() =>
             {
-                File.WriteAllBytes(caff.FilePath, CaffBytes);
+                using (Stream fileStream = new FileStream(caff.FilePath, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
                 ProcessStartInfo startInfo = new ProcessStartInfo(ParserPath);
                 startInfo.Arguments = caff.FilePath;
                 startInfo.CreateNoWindow = true;
+                startInfo.RedirectStandardOutput = true;
                 Process process = new Process
                 {
                     StartInfo = startInfo
                 };
                 process.Start();
+                while (!process.StandardOutput.EndOfStream)
+                {
+                    string line = process.StandardOutput.ReadLine();
+                    _logger.LogDebug(line);
+                }
                 process.WaitForExit();
             });           
         }

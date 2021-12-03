@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Cool.Common.DTOs;
+using Microsoft.AspNetCore.Http;
 
 namespace Cool.Bll.CaffService
 {
@@ -16,7 +17,7 @@ namespace Cool.Bll.CaffService
 
         public Task<int> UploadCaff(UploadCaffDto dto);
 
-        public Task<byte[]> DownloadCaff(int caffId);
+        public Task<(byte[], string)> DownloadCaff(int caffId);
 
         public Task DeleteCaff(int caffId);
 

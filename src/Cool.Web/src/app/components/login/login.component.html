@@ -1,0 +1,40 @@
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="assets/auth_img.png" class="img-fluid" alt="Auth image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form>
+                    <div class="divider d-flex align-items-center my-4">
+                        <h2 class="text-center fw-bold mx-3 mb-0">Bejelentkezés</h2>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="username">Felhasználónév</label>
+                        <input name="username" [(ngModel)]="formModel.username" type="text" id="username" class="form-control form-control-lg" />
+                    </div>
+
+                    <div class="form-outline mb-3">
+                        <label class="form-label" for="password">Jelszó</label>
+                        <input name="password" [(ngModel)]="formModel.password" type="password" id="password" class="form-control form-control-lg" />
+                    </div>
+
+                    <div class="alerts mt-4">
+                        <div class="alert alert-danger" role="alert" id="errorAlert" *ngIf="errorAlert">
+                            Helytelen felhasználónév vagy jelszó!
+                        </div>
+                        <div class="alert alert-warning" role="alert" id="serverAlert" *ngIf="serverAlert">
+                            Sikertelen bejelentkezés, a szerver nem elérhető!
+                        </div>
+                    </div>
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="button" class="btn btn-outline-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;" (click)="onClickLogin()">Bejelentkezés</button>
+                        <p class="small fw-bold mt-2 pt-1 mb-0">Nincs még fiókod? <a href="/registration" class="link-danger">Regisztráció</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

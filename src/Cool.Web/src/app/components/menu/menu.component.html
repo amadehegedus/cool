@@ -1,0 +1,31 @@
+<nav class="sticky-top navbar navbar-expand-lg navbar-dark bg-dark px-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" [routerLink]="['/browser']">CoolCaff</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['/browser']">Böngészés</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['/upload']">Feltöltés</a>
+                </li>
+            </ul>
+            <div class="nav-item dropdown">
+                <span class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <fa-icon [icon]="faUser"></fa-icon>
+                    {{getUsername()}}
+                </span>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" [routerLinkActive]="'active'" [routerLink]="['/profile']">Saját fájlok</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Kijelentkezés</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

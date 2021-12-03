@@ -22,6 +22,13 @@ int main(int argc, char* argv[])
 	{
 		is.seekg(0, is.end);
 		size_t size = is.tellg();
+
+		if (size == 0)
+		{
+			cout << "Empty file!" << endl;
+			return -1;
+		}
+
 		std::string buffer(size, ' ');
 		is.seekg(0);
 		is.read(&buffer[0], size);
@@ -34,6 +41,7 @@ int main(int argc, char* argv[])
 	else
 	{
 		cout << "File " + inputfilePath + " could not be found!" << endl;
+		return -1;
 	}
 
 	return 0;
