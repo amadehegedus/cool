@@ -1,0 +1,937 @@
+{
+	"info": {
+		"_postman_id": "5a8e3b9b-90b3-4c22-ab48-94f749d8f0a4",
+		"name": "Cool Backend Integration Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Register_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful registration\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"{{userName}}\",\r\n  \"passwordHash\": \"{{passwordHash}}\",\r\n  \"salt\": \"{{salt}}\",\r\n  \"fullName\": \"{{fullName}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Account/Register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Account",
+								"Register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register_BadReq",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful registration\", () => {\r",
+									"  pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"{{userName}}\",\r\n  \"passwordHash\": \"{{passwordHash}}\",\r\n  \"salt\": \"{{salt}}\",\r\n  \"fullName\": \"{{fullName}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Account/Register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Account",
+								"Register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetSaltForUser_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response content is OK\", () => {\r",
+									"  pm.expect(pm.response.text()).to.eql(pm.environment.get(\"salt\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Account/GetSaltForUser?userName={{userName}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Account",
+								"GetSaltForUser"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "{{userName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response content is OK\", () => {\r",
+									"    console.log(`current_token: ${pm.response.text()}`);\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.text()).not.eq(null);\r",
+									"    pm.environment.set('token', pm.response.text()); //Set token variable\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"{{userName}}\",\r\n  \"passwordHash\": \"{{passwordHash}}\",\r\n  \"salt\": \"{{salt}}\",\r\n  \"fullName\": \"{{fullName}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Account/Login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Account",
+								"Login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Caff",
+			"item": [
+				{
+					"name": "UploadCaff_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response content is OK\", () => {\r",
+									"    console.log(`uploaded_file_id: ${pm.response.text()}`);\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.text()).not.eq(null);\r",
+									"    pm.environment.set('uploadedFileId', pm.response.text()); //Set token variable\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "File",
+									"type": "file",
+									"src": "1.caff"
+								},
+								{
+									"key": "Tags",
+									"value": "test_tag1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Caff/UploadCaff",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"UploadCaff"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddTag_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Caff/AddTag?caffId={{uploadedFileId}}&tag=test_tag2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"AddTag"
+							],
+							"query": [
+								{
+									"key": "caffId",
+									"value": "{{uploadedFileId}}"
+								},
+								{
+									"key": "tag",
+									"value": "test_tag2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddComment_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Caff/AddComment?caffId={{uploadedFileId}}&comment=test_comment1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"AddComment"
+							],
+							"query": [
+								{
+									"key": "caffId",
+									"value": "{{uploadedFileId}}"
+								},
+								{
+									"key": "comment",
+									"value": "test_comment1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllCaffs_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"const findResult = jsonData.find(o => o.creator == pm.environment.get(\"userName\"));\r",
+									"\r",
+									"pm.test(\"Uploaded file is OK\", () => {\r",
+									"  pm.expect(jsonData).to.be.an(\"array\");\r",
+									"  pm.expect(findResult.creator).to.eq(pm.environment.get(\"userName\"));\r",
+									"  pm.expect(findResult.id).to.eq(Number(pm.environment.get(\"uploadedFileId\")));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tags are OK\", () => {\r",
+									"    const testTag1 = findResult.tags.find(t => t.text == \"test_tag1\");\r",
+									"    const testTag2 = findResult.tags.find(t => t.text == \"test_tag2\");\r",
+									"    pm.expect(testTag1).not.eq(undefined);\r",
+									"    pm.expect(testTag2).not.eq(undefined);\r",
+									"    pm.environment.set(\"deleteTagId\", testTag1.id);\r",
+									"    pm.expect(findResult.tags.length).to.eq(2);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Comments are OK\", () => {\r",
+									"    const comment = findResult.comments.find(c => c.message == \"test_comment1\");\r",
+									"    pm.expect(comment).not.eq(undefined);\r",
+									"    pm.environment.set(\"deleteCommentId\", comment.id);\r",
+									"    pm.expect(findResult.comments.length).to.eq(1);\r",
+									"    pm.expect(comment.userName).to.eq(pm.environment.get(\"userName\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Caff/GetAllCaffs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"GetAllCaffs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOwnCaffs_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"const findResult = jsonData.find(o => o.creator == pm.environment.get(\"userName\"));\r",
+									"\r",
+									"pm.test(\"Uploaded file is OK\", () => {\r",
+									"  pm.expect(jsonData).to.be.an(\"array\");\r",
+									"  pm.expect(findResult.creator).to.eq(pm.environment.get(\"userName\"));\r",
+									"  pm.expect(findResult.id).to.eq(Number(pm.environment.get(\"uploadedFileId\")));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tags are OK\", () => {\r",
+									"  pm.expect(findResult.tags.find(t => t.text == \"test_tag1\")).not.eq(undefined);\r",
+									"  pm.expect(findResult.tags.find(t => t.text == \"test_tag2\")).not.eq(undefined);\r",
+									"  pm.expect(findResult.tags.length).to.eq(2);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Comments are OK\", () => {\r",
+									"    const comment = findResult.comments.find(c => c.message == \"test_comment1\");\r",
+									"    pm.expect(comment).not.eq(undefined);\r",
+									"    pm.expect(findResult.comments.length).to.eq(1);\r",
+									"    pm.expect(comment.userName).to.eq(pm.environment.get(\"userName\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Caff/GetOwnCaffs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"GetOwnCaffs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCaffsByTags_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"const findResult = jsonData.find(o => o.creator == pm.environment.get(\"userName\"));\r",
+									"\r",
+									"pm.test(\"Uploaded file is OK\", () => {\r",
+									"  pm.expect(jsonData).to.be.an(\"array\");\r",
+									"  pm.expect(findResult.creator).to.eq(pm.environment.get(\"userName\"));\r",
+									"  pm.expect(findResult.id).to.eq(Number(pm.environment.get(\"uploadedFileId\")));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tags are OK\", () => {\r",
+									"  pm.expect(findResult.tags.find(t => t.text == \"test_tag1\")).not.eq(undefined);\r",
+									"  pm.expect(findResult.tags.find(t => t.text == \"test_tag2\")).not.eq(undefined);\r",
+									"  pm.expect(findResult.tags.length).to.eq(2);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Comments are OK\", () => {\r",
+									"    const comment = findResult.comments.find(c => c.message == \"test_comment1\");\r",
+									"    pm.expect(comment).not.eq(undefined);\r",
+									"    pm.expect(findResult.comments.length).to.eq(1);\r",
+									"    pm.expect(comment.userName).to.eq(pm.environment.get(\"userName\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    \"test_tag1\" ,\"test_tag2\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Caff/GetCaffsByTags",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"GetCaffsByTags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DownloadCaff_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response content is OK\", () => {\r",
+									"    pm.expect( pm.response.text()).not.eq(null);\r",
+									"    pm.expect( pm.response.text()).not.eq(undefined);\r",
+									"    pm.expect( pm.response.text()).not.eq(0);\r",
+									"    pm.expect( pm.response.text()).not.eq(\"\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    \"test_tag1\" ,\"test_tag2\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Caff/DownloadCaff?caffId={{uploadedFileId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"DownloadCaff"
+							],
+							"query": [
+								{
+									"key": "caffId",
+									"value": "{{uploadedFileId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveTag_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Caff/RemoveTag?tagId={{deleteTagId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"RemoveTag"
+							],
+							"query": [
+								{
+									"key": "tagId",
+									"value": "{{deleteTagId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveComment_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Caff/RemoveComment?commentId={{deleteCommentId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"RemoveComment"
+							],
+							"query": [
+								{
+									"key": "commentId",
+									"value": "{{deleteCommentId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveTag_NotFound",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Caff/RemoveTag?tagId={{deleteTagId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"RemoveTag"
+							],
+							"query": [
+								{
+									"key": "tagId",
+									"value": "{{deleteTagId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveComment_NotFound",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Caff/RemoveComment?commentId={{deleteCommentId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"RemoveComment"
+							],
+							"query": [
+								{
+									"key": "commentId",
+									"value": "{{deleteCommentId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllCaffs_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"const findResult = jsonData.find(o => o.creator == pm.environment.get(\"userName\"));\r",
+									"\r",
+									"pm.test(\"Uploaded file is OK\", () => {\r",
+									"  pm.expect(jsonData).to.be.an(\"array\");\r",
+									"  pm.expect(findResult.creator).to.eq(pm.environment.get(\"userName\"));\r",
+									"  pm.expect(findResult.id).to.eq(Number(pm.environment.get(\"uploadedFileId\")));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Tags are OK\", () => {\r",
+									"    const testTag1 = findResult.tags.find(t => t.text == \"test_tag1\");\r",
+									"    const testTag2 = findResult.tags.find(t => t.text == \"test_tag2\");\r",
+									"    pm.expect(testTag1).eq(undefined);\r",
+									"    pm.expect(testTag2).not.eq(undefined);\r",
+									"    pm.expect(findResult.tags.length).to.eq(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Comments are OK\", () => {\r",
+									"    const comment = findResult.comments.find(c => c.message == \"test_comment1\");\r",
+									"    pm.expect(comment).eq(undefined);\r",
+									"    pm.expect(findResult.comments.length).to.eq(0);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Caff/GetAllCaffs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"GetAllCaffs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCaff_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Caff/DeleteCaff?caffId={{uploadedFileId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"DeleteCaff"
+							],
+							"query": [
+								{
+									"key": "caffId",
+									"value": "{{uploadedFileId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCaff_NotFound",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Caff/DeleteCaff?caffId={{uploadedFileId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"DeleteCaff"
+							],
+							"query": [
+								{
+									"key": "caffId",
+									"value": "{{uploadedFileId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllCaffs_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"const findResult = jsonData.find(o => o.creator == pm.environment.get(\"userName\"));\r",
+									"\r",
+									"pm.test(\"Uploaded file is DELETED successfully\", () => {\r",
+									"  pm.expect(jsonData).to.be.an(\"array\");\r",
+									"  pm.expect(findResult).to.eq(undefined);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Caff/GetAllCaffs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"GetAllCaffs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOwnCaffs_OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response code is OK\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"const findResult = jsonData.find(o => o.creator == pm.environment.get(\"userName\"));\r",
+									"\r",
+									"pm.test(\"Uploaded file is DELETED successfully\", () => {\r",
+									"  pm.expect(jsonData).to.be.an(\"array\");\r",
+									"  pm.expect(findResult).to.eq(undefined);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Caff/GetOwnCaffs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Caff",
+								"GetOwnCaffs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
