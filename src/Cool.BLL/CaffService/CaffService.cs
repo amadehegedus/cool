@@ -21,7 +21,7 @@ namespace Cool.Bll.CaffService
 {
     public class CaffService : ICaffService
     {
-        private const string ParserPath= "../NativeParser/NativeParser.exe";
+        private const string ParserPath = "NativeParser.exe";
         private const string CaffFilesPath = "../CaffFiles/";
 
         private readonly IRequestContext _requestContext;
@@ -139,7 +139,6 @@ namespace Cool.Bll.CaffService
                 FilePath = $"{CaffFilesPath}{Guid.NewGuid()}.caff",
             };
             
-
             foreach(string tag in dto.Tags)
             {
                 caff.Tags.Add(new Tag { Text = tag });

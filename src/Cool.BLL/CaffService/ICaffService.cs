@@ -28,5 +28,6 @@ namespace Cool.Bll.CaffService
         public Task AddComment(int caffId, string comment);
 
         public Task RemoveComment(int commentId);
+
     }
 }

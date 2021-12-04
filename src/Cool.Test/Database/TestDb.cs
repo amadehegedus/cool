@@ -29,7 +29,7 @@ namespace Cool.Test.Database
                 Id = 1,
                 CreationTime = new DateTime(2021, 11, 29, 19, 00, 00),
                 Creator = "testUser1",
-                FilePath = "nottested",
+                FilePath = "../CaffFiles/1.caff",
                 Comments = new List<Comment>
                 {
                     new Comment
@@ -52,6 +52,38 @@ namespace Cool.Test.Database
                     new Tag
                     {
                         Id = 2, Text = "Another tag"
+                    }
+                }
+            });
+
+            dbContext.Caffs.Add(new Caff
+            {
+                Id = 2,
+                CreationTime = new DateTime(2021, 11, 30, 13, 00, 00),
+                Creator = "testUser2",
+                FilePath = "../CaffFiles/2.caff",
+                Comments = new List<Comment>
+                {
+                    new Comment
+                    {
+                        Id = 3, Message = "A comment", UserName = "testUser2",
+                        TimeStamp = new DateTime(2021, 11, 29, 19, 00, 00)
+                    },
+                    new Comment
+                    {
+                        Id = 4, Message = "Another comment", UserName = "testUser2",
+                        TimeStamp = new DateTime(2021, 11, 29, 19, 30, 00)
+                    },
+                },
+                Tags = new List<Tag>
+                {
+                    new Tag
+                    {
+                        Id = 3, Text = "A tag"
+                    },
+                    new Tag
+                    {
+                        Id = 4, Text = "Special"
                     }
                 }
             });
