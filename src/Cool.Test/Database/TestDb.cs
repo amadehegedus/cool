@@ -29,7 +29,7 @@ namespace Cool.Test.Database
                 Id = 1,
                 CreationTime = new DateTime(2021, 11, 29, 19, 00, 00),
                 Creator = "testUser1",
-                FilePath = "../../../CaffTestFiles/1.caff",
+                FilePath = "../CaffFiles/1.caff",
                 Comments = new List<Comment>
                 {
                     new Comment
@@ -61,7 +61,7 @@ namespace Cool.Test.Database
                 Id = 2,
                 CreationTime = new DateTime(2021, 11, 30, 13, 00, 00),
                 Creator = "testUser2",
-                FilePath = "../../../CaffTestFiles/2.caff",
+                FilePath = "../CaffFiles/2.caff",
                 Comments = new List<Comment>
                 {
                     new Comment

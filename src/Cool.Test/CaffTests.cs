@@ -10,7 +10,8 @@ using Cool.Common.RequestContext;
 using Cool.Dal;
 using Cool.Test.Database;
 using Cool.Test.Users;
-using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Http;
+//using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -24,6 +25,7 @@ namespace Cool.Test
         private ICaffService _caffService;
         private ILogger<CaffService> _logger;
         private IMapper _mapper;
+        private const string CaffFilesPath = "../CaffFiles";
 
         [TestInitialize]
         public void Setup()
@@ -33,18 +35,18 @@ namespace Cool.Test
             var mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new Mappings()));
             _mapper = mapperConfig.CreateMapper();
 
-            Directory.CreateDirectory("../../../CaffTestFiles");
-            File.Copy("../../../../NativeParser/1.caff", "../../../CaffTestFiles/1.caff", true);
-            File.Copy("../../../../NativeParser/1.caff-bitmap1.bmp", "../../../CaffTestFiles/1.caff-bitmap1.bmp", true);
-            File.Copy("../../../../NativeParser/2.caff", "../../../CaffTestFiles/2.caff", true);
-            File.Copy("../../../../NativeParser/1.caff-bitmap2.bmp", "../../../CaffTestFiles/2.caff-bitmap1.bmp", true);
+            Directory.CreateDirectory(CaffFilesPath);
+            File.Copy("../../../../NativeParser/1.caff", $"{CaffFilesPath}/1.caff", true);
+            File.Copy("../../../../NativeParser/1.caff-bitmap1.bmp", $"{CaffFilesPath}/1.caff-bitmap1.bmp", true);
+            File.Copy("../../../../NativeParser/2.caff", $"{CaffFilesPath}/2.caff", true);
+            File.Copy("../../../../NativeParser/1.caff-bitmap2.bmp", $"{CaffFilesPath}/2.caff-bitmap1.bmp", true);
         }
 
         [TestCleanup]
         public void TearDown()
         {
             _dbContext.Dispose();
-            DirectoryInfo di = new DirectoryInfo("../../../CaffTestFiles");
+            DirectoryInfo di = new DirectoryInfo(CaffFilesPath);
             foreach (FileInfo file in di.GetFiles())
             {
                 file.Delete();
@@ -54,9 +56,6 @@ namespace Cool.Test
         private void CreateCaffServiceForUser(IRequestContext requestContext)
         {
             _caffService = new CaffService(requestContext, _dbContext, _logger, _mapper);
-
-            _caffService.SetCaffFilesPath("../../../CaffTestFiles/");           
-            _caffService.SetParserPath("../../../../NativeParser/NativeParser.exe");
         }
 
         [TestMethod]
@@ -179,25 +178,21 @@ namespace Cool.Test
         [TestMethod]
         public void AdminCanRemoveComment()
         {
-            CreateCaffServiceForUser(new User1RequestContext());
+            CreateCaffServiceForUser(new AdminRequestContext());
 
             _caffService.RemoveComment(1);
 
             Assert.AreEqual(1, _dbContext.Comments.Count(c => c.CaffId == 1));
         }
 
-        /*
+        
         [TestMethod]
         public void UserCanUploadCaff()
         {
             CreateCaffServiceForUser(new User1RequestContext());
 
-            var stream = new MemoryStream(File.ReadAllBytes("../../../CaffTestFiles/2.caff"));
-            FormFile formFile = new FormFile(stream, 0, stream.Length, null, "2.caff")
-            {
-                Headers = new HeaderDictionary(),
-                ContentType = "application/octet-stream"
-            };
+            var stream = new MemoryStream(File.ReadAllBytes($"{ CaffFilesPath }/2.caff"));
+            FormFile formFile = new FormFile(stream, 0, stream.Length, null, "2.caff");
             UploadCaffDto dto = new UploadCaffDto { File = formFile };
 
             int id =  _caffService.UploadCaff(dto).Result;
@@ -207,20 +202,17 @@ namespace Cool.Test
             Assert.IsTrue(File.Exists(_dbContext.Caffs.First(c => c.Id == id).FilePath));
             Assert.IsTrue(File.Exists(_dbContext.Caffs.First(c => c.Id == id).FilePath+"-bitmap1.bmp"));
         }
-        */
+        
 
         [TestMethod]
         public void UserCanDownloadCaff()
         {
             CreateCaffServiceForUser(new User1RequestContext());
 
-            var stream = new MemoryStream(File.ReadAllBytes("../../../CaffTestFiles/2.caff"));
-            FormFile formFile = new FormFile(stream, 0, stream.Length, "File", "2.caff");
-            UploadCaffDto dto = new UploadCaffDto { File = formFile };
+            var stream = new MemoryStream(File.ReadAllBytes($"{CaffFilesPath}/2.caff"));
 
-            int id = _caffService.UploadCaff(dto).Result;
+            var result = _caffService.DownloadCaff(2).Result;
 
-            var result = _caffService.DownloadCaff(id).Result;
             var expected = stream.ToArray();
             Assert.IsTrue(expected.SequenceEqual(result.Item1));
         }
@@ -229,8 +221,8 @@ namespace Cool.Test
         public void UserCanGetAllCaffs()
         {
             CreateCaffServiceForUser(new User1RequestContext());
-            var bitmap1 = File.ReadAllBytes("../../../CaffTestFiles/1.caff-bitmap1.bmp");
-            var bitmap2 = File.ReadAllBytes("../../../CaffTestFiles/2.caff-bitmap1.bmp");
+            var bitmap1 = File.ReadAllBytes($"{CaffFilesPath}/1.caff-bitmap1.bmp");
+            var bitmap2 = File.ReadAllBytes($"{CaffFilesPath}/2.caff-bitmap1.bmp");
 
             var result = _caffService.GetAllCaffs().Result;
 
@@ -247,7 +239,7 @@ namespace Cool.Test
         public void UserCanGetOwnCaffs()
         {
             CreateCaffServiceForUser(new User1RequestContext());
-            var bitmap1 = File.ReadAllBytes("../../../CaffTestFiles/1.caff-bitmap1.bmp");
+            var bitmap1 = File.ReadAllBytes($"{CaffFilesPath}/1.caff-bitmap1.bmp");
 
             var result = _caffService.GetOwnCaffs().Result;
 
@@ -261,7 +253,7 @@ namespace Cool.Test
         public void UserCanGetCaffsByTags()
         {
             CreateCaffServiceForUser(new User1RequestContext());
-            var bitmap1 = File.ReadAllBytes("../../../CaffTestFiles/2.caff-bitmap1.bmp");
+            var bitmap1 = File.ReadAllBytes($"{CaffFilesPath}/2.caff-bitmap1.bmp");
 
             var result = _caffService.GetCaffsByTags(new List<string>
             { "Special" }).Result;

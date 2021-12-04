@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cool.Api\Cool.Api.csproj" />
     <ProjectReference Include="..\Cool.BLL\Cool.Bll.csproj" />
     <ProjectReference Include="..\Cool.DAL\Cool.Dal.csproj" />
   </ItemGroup>

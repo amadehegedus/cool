@@ -29,4 +29,10 @@
     <ProjectReference Include="..\Cool.DAL\Cool.Dal.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="NativeParser.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

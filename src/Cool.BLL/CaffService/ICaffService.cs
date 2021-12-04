@@ -29,8 +29,5 @@ namespace Cool.Bll.CaffService
 
         public Task RemoveComment(int commentId);
 
-        public void SetCaffFilesPath(string path);
-
-        public void SetParserPath(string path);
     }
 }

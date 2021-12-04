@@ -21,8 +21,8 @@ namespace Cool.Bll.CaffService
 {
     public class CaffService : ICaffService
     {
-        private string ParserPath= "../NativeParser/NativeParser.exe";
-        private string CaffFilesPath = "../CaffFiles/";
+        private const string ParserPath = "NativeParser.exe";
+        private const string CaffFilesPath = "../CaffFiles/";
 
         private readonly IRequestContext _requestContext;
         private readonly CoolDbContext _dbContext;
@@ -308,16 +308,6 @@ namespace Cool.Bll.CaffService
                     return false;
             }
             return true;
-        }
-
-        public void SetCaffFilesPath(string path)
-        {
-            CaffFilesPath = path;
-        }
-
-        public void SetParserPath(string path)
-        {
-            ParserPath = path;
         }
     }
 }
