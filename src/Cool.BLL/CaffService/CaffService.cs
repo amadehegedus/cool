@@ -41,7 +41,7 @@ namespace Cool.Bll.CaffService
         {
             _logger.LogDebug("User {username} is querying every caff", _requestContext.UserName);
 
-            var caffs = await _dbContext.Caffs.ToListAsync();
+            var caffs = await _dbContext.Caffs.OrderByDescending(c => c.CreationTime).ToListAsync();
             List<CaffDto> caffDtos = _mapper.Map<List<CaffDto>>(caffs);
             var tags = await _dbContext.Tags.ToListAsync();
             var comments = await _dbContext.Comments.ToListAsync();      
@@ -146,8 +146,8 @@ namespace Cool.Bll.CaffService
 
             _dbContext.Caffs.Add(caff);
 
-            await _dbContext.SaveChangesAsync();
             await GenerateImages(caff, dto.File);
+            await _dbContext.SaveChangesAsync();
 
             _logger.LogDebug("Caff successfully uploaded by {username}", _requestContext.UserName);
 

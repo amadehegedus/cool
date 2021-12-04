@@ -284,7 +284,6 @@ CMakeCache.txt
 CMakeFiles
 CMakeScripts
 Testing
-Makefile
 cmake_install.cmake
 install_manifest.txt
 compile_commands.json
@@ -302,3 +301,5 @@ src/CaffFiles/*
 ### Node generated file ###
 src/Cool.Web/package-lock.json
 src/Cool.Web/package-lock.json
+
+src/Cool.API/.sonarqube
