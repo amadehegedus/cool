@@ -202,7 +202,21 @@ namespace Cool.Test
             Assert.IsTrue(File.Exists(_dbContext.Caffs.First(c => c.Id == id).FilePath));
             Assert.IsTrue(File.Exists(_dbContext.Caffs.First(c => c.Id == id).FilePath+"-bitmap1.bmp"));
         }
-        
+
+        [TestMethod]
+        public void UserCantUploadInvalidCaff()
+        {
+            CreateCaffServiceForUser(new User1RequestContext());
+
+            var stream = new MemoryStream(File.ReadAllBytes($"{ CaffFilesPath }/2.caff-bitmap1.bmp"));
+            FormFile formFile = new FormFile(stream, 0, stream.Length, null, "2.caff");
+            UploadCaffDto dto = new UploadCaffDto { File = formFile };
+          
+            Assert.ThrowsExceptionAsync<BadRequestException>(() => _caffService.UploadCaff(dto));
+            Assert.AreEqual(2, _dbContext.Caffs.Count());
+            Assert.IsTrue(!File.Exists($"{CaffFilesPath}/2.caff-bitmap1.bmp-bitmap1.bmp"));
+        }
+
 
         [TestMethod]
         public void UserCanDownloadCaff()
@@ -227,12 +241,12 @@ namespace Cool.Test
             var result = _caffService.GetAllCaffs().Result;
 
             Assert.IsTrue(result.Count == 2);
-            Assert.IsTrue(result[0].PreviewBitmap.SequenceEqual(bitmap1));
-            Assert.IsTrue(result[1].PreviewBitmap.SequenceEqual(bitmap2));
-            Assert.AreEqual(result[0].Id, 1);
-            Assert.AreEqual(result[1].Id, 2);
-            Assert.AreEqual(result[0].Creator, "testUser1");
-            Assert.AreEqual(result[1].Creator, "testUser2");
+            Assert.IsTrue(result[0].PreviewBitmap.SequenceEqual(bitmap2));
+            Assert.IsTrue(result[1].PreviewBitmap.SequenceEqual(bitmap1));
+            Assert.AreEqual(result[0].Id, 2);
+            Assert.AreEqual(result[1].Id, 1);
+            Assert.AreEqual(result[0].Creator, "testUser2");
+            Assert.AreEqual(result[1].Creator, "testUser1");
         }
 
         [TestMethod]
