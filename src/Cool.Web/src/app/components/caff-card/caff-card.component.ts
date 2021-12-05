@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CaffDto, CaffService } from 'src/app/api/app.generated';
+import { CaffDto, CaffService } from '../../api/app.generated';
 import { getImage } from '../../utils/imageUtil';
 import { getDateString } from "../../utils/dateTimeUtil";
 import { saveAs } from 'file-saver';
@@ -16,7 +16,6 @@ export class CaffCardComponent implements OnInit {
   imageSrc: string = '';
   faSave = faFileDownload;
   faUser = faUser;
-
 
   constructor(private api: CaffService) { }
 

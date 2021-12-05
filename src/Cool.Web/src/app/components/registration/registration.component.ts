@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService, IRegisterDto, RegisterDto } from 'src/app/api/app.generated';
-import * as shajs from 'sha.js';
+import shajs from 'sha.js';
 import { Router } from '@angular/router';
 
 @Component({

@@ -1,6 +1,6 @@
 export const getDateString = (date: Date) => {
   return date.getFullYear() + '-' +
-    to2digits(date.getMonth()) + '-' +
+    to2digits(date.getMonth()+1) + '-' +
     to2digits(date.getDate()) + ' ' +
     to2digits(date.getHours()) + ':' +
     to2digits(date.getMinutes());
