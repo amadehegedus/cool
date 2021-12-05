@@ -2,12 +2,14 @@
     <img [src]="imageSrc" alt="preview-bmp" class="img-fluid">
     <div class="card-body">
         <div>
-            <div *ngFor="let tag of caff.tags" style="white-space: nowrap; margin: 2px;" class="d-inline bg-dark rounded text-light"><span style="margin: 4px;">#{{tag.text}}</span></div>
+            <div *ngFor="let tag of caff.tags" style="white-space: nowrap; margin: 2px;" class="tag-element d-inline bg-dark rounded text-light">
+              <span style="margin: 4px;">#{{tag.text}}</span>
+            </div>
         </div>
         <hr>
-        <small class="text-dark"><strong><fa-icon [icon]="faUser"></fa-icon> Feltöltő: {{caff.creator}}</strong></small>
+        <small class="text-dark creator"><strong><fa-icon [icon]="faUser"></fa-icon>Feltöltő: {{caff.creator}}</strong></small>
         <br>
-        <small class="text-muted">{{getDateString(caff.creationTime)}}</small>
+        <small class="text-muted creation-time">{{getDateString(caff.creationTime)}}</small>
         <hr>
         <div class="d-flex justify-content-start mt-2">
             <div class="btn-group">

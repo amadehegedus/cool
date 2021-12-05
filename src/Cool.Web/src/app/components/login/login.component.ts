@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import * as shajs from 'sha.js';
+import shajs from 'sha.js';
 import { AccountService, ILoginDto, LoginDto } from 'src/app/api/app.generated';
 
 @Component({
