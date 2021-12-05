@@ -69,7 +69,8 @@ namespace Cool.Bll.CaffService
         {
             _logger.LogDebug("User {username} is querying every caff of the user", _requestContext.UserName);
 
-            var caffs = await _dbContext.Caffs.Where(x => x.Creator == _requestContext.UserName).ToListAsync();
+            var caffs = await _dbContext.Caffs.Where(x => x.Creator == _requestContext.UserName)
+            .OrderByDescending(c => c.CreationTime).ToListAsync();
             List<CaffDto> caffDtos = _mapper.Map<List<CaffDto>>(caffs);
             var tags = await _dbContext.Tags.ToListAsync();
             var comments = await _dbContext.Comments.ToListAsync();
@@ -97,7 +98,7 @@ namespace Cool.Bll.CaffService
         {
             _logger.LogDebug("User {username} is querying caffs by tags {tags}", _requestContext.UserName, tags);
 
-            var caffs = await _dbContext.Caffs.ToListAsync();
+            var caffs = await _dbContext.Caffs.OrderByDescending(c => c.CreationTime).ToListAsync();
             List<CaffDto> caffDtos = _mapper.Map<List<CaffDto>>(caffs);
             List<CaffDto> filtered = new List<CaffDto>();
             var dbtags = await _dbContext.Tags.ToListAsync();
@@ -130,7 +131,7 @@ namespace Cool.Bll.CaffService
         public async Task<int> UploadCaff(UploadCaffDto dto)
         {
             _logger.LogDebug("User {username} is uploading a caff", _requestContext.UserName);
-            Directory.CreateDirectory("../CaffFiles");
+            Directory.CreateDirectory(CaffFilesPath);
             
             Caff caff = new Caff
             {
@@ -149,14 +150,14 @@ namespace Cool.Bll.CaffService
             await GenerateImages(caff, dto.File);
             await _dbContext.SaveChangesAsync();
 
-            _logger.LogDebug("Caff successfully uploaded by {username}", _requestContext.UserName);
+            _logger.LogDebug("Caff {caffid} successfully uploaded by {username}", caff.Id, _requestContext.UserName);
 
             return caff.Id;
         }
 
         public async Task<(byte[], string)> DownloadCaff(int caffId)
         {
-            _logger.LogDebug("User {username} is downloading caffId={caffid}", _requestContext.UserName, caffId);
+            _logger.LogDebug("User {username} is downloading CaffId={caffid}", _requestContext.UserName, caffId);
 
             var caff = await _dbContext.Caffs.SingleOrDefaultAsync(c => c.Id == caffId);
 
@@ -166,14 +167,14 @@ namespace Cool.Bll.CaffService
             if(!File.Exists(caff.FilePath))
                 throw new NotFoundException($"Caff file of {caffId} could not be found!");
 
-            _logger.LogDebug("User {username} downloaded caffId={caffid}", _requestContext.UserName, caffId);
+            _logger.LogDebug("User {username} downloaded CaffId={caffid}", _requestContext.UserName, caffId);
 
             return (File.ReadAllBytes(caff.FilePath), caff.FilePath.Split('\\')[^1]);           
         }
 
         public async Task DeleteCaff(int caffId)
         {
-            _logger.LogDebug("User {username} is removing caffId={caffid}", _requestContext.UserName, caffId);
+            _logger.LogDebug("User {username} is removing CaffId={caffid}", _requestContext.UserName, caffId);
 
             var caff = await _dbContext.Caffs.SingleOrDefaultAsync(c => c.Id == caffId);          
 
@@ -191,8 +192,10 @@ namespace Cool.Bll.CaffService
             _dbContext.Comments.RemoveRange(comments);
             await _dbContext.SaveChangesAsync();
 
-            if(File.Exists(caff.FilePath))
-                File.Delete(caff.FilePath);
+            DirectoryInfo taskDirectory = new DirectoryInfo(CaffFilesPath);
+            FileInfo[] taskFiles = taskDirectory.GetFiles($"{caff.FilePath.Substring(CaffFilesPath.Length)}*");
+            foreach (FileInfo file in taskFiles)
+                file.Delete();
 
             _logger.LogDebug("CaffId={id} successfully removed by {userName}", caffId, _requestContext.UserName);
         }
@@ -297,6 +300,11 @@ namespace Cool.Bll.CaffService
                     _logger.LogDebug(line);
                 }
                 process.WaitForExit();
+                if (!File.Exists($"{caff.FilePath}-bitmap1.bmp"))
+                {
+                    File.Delete(caff.FilePath);
+                    throw new BadRequestException("Uploaded file is invalid. Preview generation failed.");
+                }
             });           
         }
 
